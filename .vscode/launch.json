@@ -7,13 +7,13 @@
   {
     "type": "node",
     "request": "launch",
-    "name": "Launch Program",
+    "name": "Launch Example",
     "program": "${workspaceFolder}/examples/webpack.config.js"
   },
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Launch base",
       "program": "${workspaceFolder}/lib/get-base-config.js"
     }
   ]
