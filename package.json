@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/gaoxiaoliangz/webpack-utils/issues"
   },
-  "homepage": "https://github.com/gaoxiaoliangz/webpack-utils#readme"
+  "homepage": "https://github.com/gaoxiaoliangz/webpack-utils#readme",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
 }
