@@ -9,8 +9,9 @@ const config = getBaseConfig({
       reactyes: 0,
       other: 2
     },
-    sass: true
+    sass: true,
+    postcss: true
   }
 })
 
-console.log(config)
+// console.log(config)
