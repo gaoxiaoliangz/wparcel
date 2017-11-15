@@ -5,10 +5,7 @@ const config = getBaseConfig(
     features: {
       polyfill: true,
       react: true,
-      babel: {
-        reactyes: 0,
-        other: 2
-      },
+      babel: true,
       sass: true,
       // postcss: true
     }
@@ -18,5 +15,3 @@ const config = getBaseConfig(
     }
   }
 )
-
-// console.log(config)
