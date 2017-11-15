@@ -2,9 +2,11 @@
   "name": "webpack-utils",
   "version": "1.0.0",
   "description": "lib/resolveApp lib/getBaseConfig",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,8 @@
   },
   "homepage": "https://github.com/gaoxiaoliangz/webpack-utils#readme",
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "webpack-merge": "^4.1.1",
+    "webpack-validator": "^3.0.0"
   }
 }
