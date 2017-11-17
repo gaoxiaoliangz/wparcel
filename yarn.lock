@@ -441,7 +441,7 @@ colormin@^1.0.5:
     css-color-names "0.0.4"
     has "^1.0.1"
 
-colors@~1.1.2:
+colors@^1.1.2, colors@~1.1.2:
   version "1.1.2"
   resolved "http://registry.npm.taobao.org/colors/download/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
 
@@ -2505,6 +2505,10 @@ webpack-merge@^4.1.1:
   resolved "http://registry.npm.taobao.org/webpack-merge/download/webpack-merge-4.1.1.tgz#f1197a0a973e69c6fbeeb6d658219aa8c0c13555"
   dependencies:
     lodash "^4.17.4"
+
+webpack-node-externals@^1.6.0:
+  version "1.6.0"
+  resolved "http://registry.npm.taobao.org/webpack-node-externals/download/webpack-node-externals-1.6.0.tgz#232c62ec6092b100635a3d29d83c1747128df9bd"
 
 webpack-sources@^1.0.1:
   version "1.0.2"

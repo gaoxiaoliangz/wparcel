@@ -47,6 +47,14 @@ use babel-polyfill
 
 bundle for node env
 
+### `nodeExternals`
+
+exclude node_modules from webpack bundle
+
+#### Config
+
+- `config`, default: `{}`, config that applied to webpack-node-externals
+
 ### `css` | `postcss` | `sass`
 
 support css file
