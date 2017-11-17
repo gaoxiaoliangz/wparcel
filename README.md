@@ -60,26 +60,26 @@ support css file
 
 ### `babel`
 
-### Config
+#### Config
 
 - `babelrc`, default with `es2015` preset
 
-## `react`
+### `react`
 
 enable jsx support
 
-## `typescript`
+### `typescript`
 
 enable typescript support
 
-## `graphql`
+### `graphql`
 
 enable *.graphql and *.gql support
 
-## `media` (enabled by default)
+### `media` (enabled by default)
 
 enable importing all kinds of files
 
-### Config
+#### Config
 
 - `loadImgWithUrlLoader`, default: `true`, import image file as base64 to avoid requests
