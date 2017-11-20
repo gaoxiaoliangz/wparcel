@@ -39,6 +39,8 @@ convert relative path to absolute path
 
 ## Features
 
+If a feature is set to `true`, default values under config will be used, if set to object, then this object will be merged with default config.
+
 ### `polyfill`
 
 use babel-polyfill
@@ -47,15 +49,29 @@ use babel-polyfill
 
 bundle for node env
 
-### `nodeExternals`
+### `excludeExternals`
 
 exclude node_modules from webpack bundle
 
 #### Config
 
-- `config`, default: `{}`, config that applied to webpack-node-externals
+it is applied directly to webpack-node-externals
 
-### `css` | `postcss` | `sass`
+- `whitelist`, default: `[]`, include packages in the build
+
+### `css`
+
+support css file
+
+#### Config
+
+- `sourceMap`, default: `true`
+- `extract`, default: `false`, extract to file, if false, css will be injected into head tag
+- `scoped`, default: `false`
+- `isomorphic`, default: `false`
+- `postcss`, default: `false`
+
+### `sass`
 
 support css file
 
@@ -71,10 +87,7 @@ support css file
 #### Config
 
 - `babelrc`, default with `es2015` preset
-
-### `react`
-
-enable jsx support
+- `react`, default: `false`, use `react-app` babel preset
 
 ### `typescript`
 
@@ -91,3 +104,7 @@ enable importing all kinds of files
 #### Config
 
 - `loadImgWithUrlLoader`, default: `true`, import image file as base64 to avoid requests
+
+### `production`
+
+add production optimizations for the build
