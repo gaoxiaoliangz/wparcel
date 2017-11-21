@@ -1,14 +1,18 @@
-const getBaseConfig = require('../lib/get-base-config')
+const generate = require('../lib/generate')
 
-const config = getBaseConfig(
+const config = generate(
   {
-    features: {
-      polyfill: true,
-      react: true,
-      babel: true,
-      sass: true,
-      // postcss: true
-    }
+    polyfill: true,
+    react: true,
+    babel: true,
+    css: {
+      postcss: true
+    },
+    sass: {
+      scoped: true
+    },
+    disableDepCheck: true,
+    production: true,
   }, {
     entry: {
       app: ['babel-polyfill'],
