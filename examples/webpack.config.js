@@ -13,9 +13,10 @@ const config = generate(
     },
     disableDepCheck: true,
     production: true,
+    excludeExternals: true
   }, {
     entry: {
-      app: ['babel-polyfill'],
+      app: ['babel-polyfi2ll'],
     }
   }
 )
