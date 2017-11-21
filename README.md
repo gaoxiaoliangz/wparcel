@@ -6,15 +6,18 @@ with webpack-utils you can write webpack config files like this, everything you 
 const { resolveApp, generateConfig } = require('webpack-utils')
 
 module.exports = generateConfig({
-  features: {
-    react: true,
-    css: true,
-    sass: {
-      scoped: true
-    },
-    typescript: true,
-    media: true
-  }
+  polyfill: true,
+  react: true,
+  babel: true,
+  css: {
+    postcss: true
+  },
+  sass: {
+    scoped: true
+  },
+  disableDepCheck: false,
+  production: true,
+  excludeExternals: true
 }, {
   entry: {
     app: resolveApp('src/index.jsx')
@@ -32,12 +35,11 @@ module.exports = generateConfig({
 
 convert relative path to absolute path
 
-### generateConfig(config, webpackConfig)
+### generateConfig(features, webpackConfig)
 
-- `config.features`, object, the features you want to enable, set to `true` or config object to enable, `false` to disable.
-- `webpackConfig`, the same object as you would use in a normal webpack.config.js, this would override any config `generateConfig` produces.
+## features
 
-## Features
+object, the features you want to enable, set to `true` or config object to enable, `false` to disable.
 
 ### `polyfill`
 
@@ -47,17 +49,17 @@ use babel-polyfill
 
 bundle for node env
 
-### `nodeExternals`
+### `excludeExternals`
 
-exclude node_modules from webpack bundle
+exclude `node_modules` from webpack bundle
 
 #### Config
 
 - `config`, default: `{}`, config that applied to webpack-node-externals
 
-### `css` | `postcss` | `sass`
+### `css` | `sass`
 
-support css file
+support css/scss file
 
 #### Config
 
@@ -65,16 +67,13 @@ support css file
 - `extract`, default: `false`, extract to file, if false, css will be injected into head tag
 - `scoped`, default: `false`
 - `isomorphic`, default: `false`
+- `postcss`, default: `false` (css only)
 
 ### `babel`
 
 #### Config
 
-- `babelrc`, default with `es2015` preset
-
-### `react`
-
-enable jsx support
+- `react`, default: `false`, jsx support
 
 ### `typescript`
 
@@ -91,3 +90,23 @@ enable importing all kinds of files
 #### Config
 
 - `loadImgWithUrlLoader`, default: `true`, import image file as base64 to avoid requests
+
+### `production`
+
+Optimize build for production
+
+#### Config
+
+- `compress`, default: `true`
+
+### `verbose`
+
+default: `false`, display detailed webpack info
+
+### `disableDepCheck`
+
+default: `false`, check loader dependency
+
+## `webpackConfig`
+
+the same object as you would use in a normal webpack.config.js, this would override any config `generateConfig` produces.
