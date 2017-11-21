@@ -41,6 +41,8 @@ convert relative path to absolute path
 
 object, the features you want to enable, set to `true` or config object to enable, `false` to disable.
 
+If a feature is set to `true`, default values under config will be used, if set to object, then this object will be merged with default config.
+
 ### `polyfill`
 
 use babel-polyfill
@@ -55,7 +57,9 @@ exclude `node_modules` from webpack bundle
 
 #### Config
 
-- `config`, default: `{}`, config that applied to webpack-node-externals
+it is applied directly to webpack-node-externals
+
+- `whitelist`, default: `[]`, include packages in the build
 
 ### `css` | `sass`
 
@@ -73,7 +77,8 @@ support css/scss file
 
 #### Config
 
-- `react`, default: `false`, jsx support
+- `babelrc`, default with `es2015` preset, if this is present, default config or react config will be overridden
+- `react`, default: `false`, use `react-app` babel preset
 
 ### `typescript`
 
@@ -93,7 +98,7 @@ enable importing all kinds of files
 
 ### `production`
 
-Optimize build for production
+add production optimizations for the build
 
 #### Config
 
