@@ -6,15 +6,18 @@ with webpack-utils you can write webpack config files like this, everything you 
 const { resolveApp, generateConfig } = require('webpack-utils')
 
 module.exports = generateConfig({
-  features: {
-    react: true,
-    css: true,
-    sass: {
-      scoped: true
-    },
-    typescript: true,
-    media: true
-  }
+  polyfill: true,
+  react: true,
+  babel: true,
+  css: {
+    postcss: true
+  },
+  sass: {
+    scoped: true
+  },
+  disableDepCheck: false,
+  production: true,
+  excludeExternals: true
 }, {
   entry: {
     app: resolveApp('src/index.jsx')
@@ -32,12 +35,11 @@ module.exports = generateConfig({
 
 convert relative path to absolute path
 
-### generateConfig(config, webpackConfig)
+### generateConfig(features, webpackConfig)
 
-- `config.features`, object, the features you want to enable, set to `true` or config object to enable, `false` to disable.
-- `webpackConfig`, the same object as you would use in a normal webpack.config.js, this would override any config `generateConfig` produces.
+## features
 
-## Features
+object, the features you want to enable, set to `true` or config object to enable, `false` to disable.
 
 If a feature is set to `true`, default values under config will be used, if set to object, then this object will be merged with default config.
 
@@ -51,7 +53,7 @@ bundle for node env
 
 ### `excludeExternals`
 
-exclude node_modules from webpack bundle
+exclude `node_modules` from webpack bundle
 
 #### Config
 
@@ -59,21 +61,9 @@ it is applied directly to webpack-node-externals
 
 - `whitelist`, default: `[]`, include packages in the build
 
-### `css`
+### `css` | `sass`
 
-support css file
-
-#### Config
-
-- `sourceMap`, default: `true`
-- `extract`, default: `false`, extract to file, if false, css will be injected into head tag
-- `scoped`, default: `false`
-- `isomorphic`, default: `false`
-- `postcss`, default: `false`
-
-### `sass`
-
-support css file
+support css/scss file
 
 #### Config
 
@@ -81,12 +71,13 @@ support css file
 - `extract`, default: `false`, extract to file, if false, css will be injected into head tag
 - `scoped`, default: `false`
 - `isomorphic`, default: `false`
+- `postcss`, default: `false` (css only)
 
 ### `babel`
 
 #### Config
 
-- `babelrc`, default with `es2015` preset
+- `babelrc`, default with `es2015` preset, if this is present, default config or react config will be overridden
 - `react`, default: `false`, use `react-app` babel preset
 
 ### `typescript`
@@ -108,3 +99,19 @@ enable importing all kinds of files
 ### `production`
 
 add production optimizations for the build
+
+#### Config
+
+- `compress`, default: `true`
+
+### `verbose`
+
+default: `false`, display detailed webpack info
+
+### `disableDepCheck`
+
+default: `false`, check loader dependency
+
+## `webpackConfig`
+
+the same object as you would use in a normal webpack.config.js, this would override any config `generateConfig` produces.
