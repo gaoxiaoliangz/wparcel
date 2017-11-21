@@ -11,12 +11,12 @@ const config = generate(
     sass: {
       scoped: true
     },
-    disableDepCheck: true,
+    disableDepCheck: false,
     production: true,
     excludeExternals: true
   }, {
     entry: {
-      app: ['babel-polyfi2ll'],
+      app: ['babel-polyfill', './src/index.js'],
     }
   }
 )
