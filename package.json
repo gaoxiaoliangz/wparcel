@@ -1,5 +1,5 @@
 {
-  "name": "webpack-utils",
+  "name": "@gxl/webpack-utils",
   "version": "3.0.0",
   "description": "lib/resolveApp lib/getBaseConfig",
   "main": "lib/index.js",
