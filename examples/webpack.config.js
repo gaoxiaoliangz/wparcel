@@ -1,3 +1,4 @@
+// const webpack = require('webpack')
 const generate = require('../lib/generate')
 
 const config = generate(
@@ -11,7 +12,8 @@ const config = generate(
     sass: {
       scoped: true
     },
-    disableDepCheck: false,
+    typescript: true,
+    disableDepCheck: true,
     production: true,
     excludeExternals: true
   }, {
@@ -20,3 +22,5 @@ const config = generate(
     }
   }
 )
+
+// webpack(config)
