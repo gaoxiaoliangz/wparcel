@@ -1,7 +1,6 @@
-// const webpack = require('webpack')
-const generate = require('../lib/generate')
+const { generateConfig, resolveApp } = require('../lib')
 
-const config = generate(
+module.exports = generateConfig(
   {
     polyfill: true,
     react: true,
@@ -10,17 +9,22 @@ const config = generate(
       postcss: true
     },
     sass: {
-      scoped: true
+      scoped: true,
+      extract: true
     },
-    typescript: true,
-    disableDepCheck: true,
+    typescript: false,
     production: true,
-    excludeExternals: true
+    excludeExternals: true,
+    media: {
+      dataUrl: false
+    }
   }, {
     entry: {
       app: ['babel-polyfill', './src/index.js'],
+    },
+    output: {
+      filename: '[name].js',
+      path: resolveApp('build')
     }
   }
 )
-
-// webpack(config)

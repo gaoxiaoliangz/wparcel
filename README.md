@@ -94,7 +94,7 @@ enable importing all kinds of files
 
 #### Config
 
-- `loadImgWithUrlLoader`, default: `true`, import image file as base64 to avoid requests
+- `dataUrl`, default: `true`, import image file as base64 to avoid requests
 
 ### `production`
 
