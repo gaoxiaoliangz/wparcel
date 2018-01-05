@@ -3,8 +3,9 @@ const { generateConfig, resolveApp } = require('../lib')
 module.exports = generateConfig(
   {
     polyfill: true,
-    react: true,
-    babel: true,
+    babel: {
+      react: false
+    },
     css: {
       postcss: true
     },
@@ -20,7 +21,7 @@ module.exports = generateConfig(
     }
   }, {
     entry: {
-      app: ['babel-polyfill', './src/index.js'],
+      app: ['babel-polyfill', './src/index.js']
     },
     output: {
       filename: '[name].js',
