@@ -2,6 +2,11 @@
 
 ## Getting started
 
+install `webpack-auto`
+```
+$ yarn add webpack-auto
+```
+
 run
 ```
 $ webpack-auto
