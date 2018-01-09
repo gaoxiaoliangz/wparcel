@@ -1,22 +1,25 @@
 {
-  "name": "@gxl/webpack-utils",
+  "name": "webpack-auto",
   "version": "3.0.3",
   "description": "lib/resolveApp lib/getBaseConfig",
   "main": "lib/index.js",
+  "bin": {
+    "webpack-auto": "bin/generate-config.js"
+  },
   "directories": {
     "lib": "lib"
   },
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gaoxiaoliangz/webpack-utils.git"
+    "url": "git+https://github.com/gaoxiaoliangz/webpack-auto.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gaoxiaoliangz/webpack-utils/issues"
+    "url": "https://github.com/gaoxiaoliangz/webpack-auto/issues"
   },
-  "homepage": "https://github.com/gaoxiaoliangz/webpack-utils#readme",
+  "homepage": "https://github.com/gaoxiaoliangz/webpack-auto#readme",
   "dependencies": {
     "colors": "^1.1.2",
     "extract-text-webpack-plugin": "^3.0.2",

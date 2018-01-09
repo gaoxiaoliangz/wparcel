@@ -1,6 +1,18 @@
-# webpack-utils
+# webpack-auto
 
-with webpack-utils you can write webpack config files like this, everything you want is defined as features
+## Getting started
+
+run
+```
+$ webpack-auto
+```
+and webpack.config.js is generated with default features
+
+You can enable or disable them as you wish. With webpack-auto, you no longer need to struggle with tedious webpack config to get a tiny feature, but just config them as all sorts of handy common featues. And if anything you want is not provided by webpack-auto, you can still define them in webpack config, webpack-auto will merge them with the features you defined for you.
+
+## Example
+
+webpack.config.js
 
 ```js
 const { resolveApp, generateConfig } = require('webpack-utils')
@@ -29,7 +41,9 @@ module.exports = generateConfig({
 })
 ```
 
-## util functions
+## Provided functions
+
+You can `import { resolveApp, generateConfig } from 'webpack-auto'` to access these functions.
 
 ### resolveApp(relativePath)
 
