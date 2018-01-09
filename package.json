@@ -1,6 +1,6 @@
 {
   "name": "webpack-auto",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "lib/resolveApp lib/getBaseConfig",
   "main": "lib/index.js",
   "bin": {
