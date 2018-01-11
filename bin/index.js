@@ -5,9 +5,11 @@ const _ = require('lodash')
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles')
 const runTask = require('../lib/task/runTask')
 const { resolveApp } = require('../lib/utils')
+const serve = require('../lib/built-in-tasks/serve')
 
 const COMMANDS = {
   RUN_TASK: 'runTask',
+  SERVE: 'serve'
 }
 
 const argv = minimist(process.argv.slice(2))
@@ -40,6 +42,14 @@ if (argvFlow[0] === COMMANDS.RUN_TASK) {
 
   runTask(taskFn, {
     name: taskName ? `${taskFilename}:${taskName}` : taskFilename
+  })
+    .catch((err) => {
+      console.error(err.stack)
+      process.exit(1)
+    })
+} else if (argvFlow[0] === COMMANDS.SERVE) {
+  runTask(serve, {
+    name: 'serve'
   })
     .catch((err) => {
       console.error(err.stack)
