@@ -1,5 +1,3 @@
-#! /usr/bin/env node
-
 const fs = require('fs')
 const path = require('path')
 const { resolveApp } = require('../lib')
@@ -32,7 +30,7 @@ function writeToDisc(dest) {
     fs.writeFileSync(dest, exampleConfig, {
       encoding: 'utf8'
     })
-    console.log('Config successfully written to:', dest)
+    console.log('Config successfully written to:\n', dest)
     rl.close()
   }
 }
