@@ -1,6 +1,6 @@
 {
-  "name": "webpack-auto",
-  "version": "3.0.5",
+  "name": "jellyweb",
+  "version": "0.0.1",
   "description": "lib/resolveApp lib/getBaseConfig",
   "main": "lib/index.js",
   "bin": {
@@ -12,14 +12,14 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gaoxiaoliangz/webpack-auto.git"
+    "url": "git+https://github.com/gaoxiaoliangz/jellyweb.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gaoxiaoliangz/webpack-auto/issues"
+    "url": "https://github.com/gaoxiaoliangz/jellyweb/issues"
   },
-  "homepage": "https://github.com/gaoxiaoliangz/webpack-auto#readme",
+  "homepage": "https://github.com/gaoxiaoliangz/jellyweb#readme",
   "dependencies": {
     "chalk": "^2.3.0",
     "colors": "^1.1.2",
