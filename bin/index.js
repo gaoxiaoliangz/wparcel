@@ -6,7 +6,7 @@ const argv = minimist(process.argv.slice(2))
 const argvFlow = argv._
 
 const commands = {
-  init: () => require('../lib/commands/init')(argvFlow),
+  init: () => require('../lib/commands/init')(argv),
   run: () => require('../lib/commands/run')(argvFlow),
   serve: () => require('../lib/commands/serve')(argvFlow),
 }
@@ -21,6 +21,8 @@ if (argvFlow.length === 0) {
   } else {
     console.log('Unknown command')
   }
+} else if (commands[argvFlow[0]]) {
+   commands[argvFlow[0]].call()
 } else {
-  commands[argvFlow[0]] && commands[argvFlow[0]].call()
+  console.log(`Unknown command ${argvFlow[0]}`)
 }
