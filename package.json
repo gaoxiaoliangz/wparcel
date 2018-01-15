@@ -1,6 +1,6 @@
 {
   "name": "jellyweb",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "lib/resolveApp lib/getBaseConfig",
   "main": "lib/index.js",
   "bin": {

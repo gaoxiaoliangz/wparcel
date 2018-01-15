@@ -1,17 +1,17 @@
 #! /usr/bin/env node
 
 const minimist = require('minimist')
+const print = require('../lib/utils/print')
 
 const argv = minimist(process.argv.slice(2))
-const argvFlow = argv._
 
 const commands = {
   init: () => require('../lib/commands/init')(argv),
-  run: () => require('../lib/commands/run')(argvFlow),
-  serve: () => require('../lib/commands/serve')(argvFlow),
+  run: () => require('../lib/commands/run')(argv),
+  serve: () => require('../lib/commands/serve')(argv),
 }
 
-if (argvFlow.length === 0) {
+if (argv._.length === 0) {
   if (argv.version || argv.v) {
     // --version, -v
     require('../lib/commands/version')()
@@ -19,10 +19,10 @@ if (argvFlow.length === 0) {
     // --help, -h
     require('../lib/commands/help')()
   } else {
-    console.log('Unknown command')
+    print.error('Unknown command')
   }
-} else if (commands[argvFlow[0]]) {
-   commands[argvFlow[0]].call()
+} else if (commands[argv._[0]]) {
+   commands[argv._[0]].call()
 } else {
-  console.log(`Unknown command ${argvFlow[0]}`)
+  print.error(`Unknown command ${argv._[0]}`)
 }
