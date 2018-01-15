@@ -57,7 +57,6 @@ And you are good to go.
 
 | Command | Description                                        | options                                                                      |
 | ------- | -------------------------------------------------- | ---------------------------------------------------------------------------- |
-| :--     | :--                                                | :--                                                                          |
 | init    | generate config files                              | `--ts`: generate tsconfig.json                                               |
 | serve   | start webpack dev server                           | `--ncc`: do not clear console, `--nob`: do not open browser on first compile |
 | build   | bundle asset files                                 |                                                                              |
