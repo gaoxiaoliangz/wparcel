@@ -36,8 +36,8 @@ A webpack based packing tool that makes your development easier
 
 install `jellyweb`
 ```
-$ yarn add jellyweb
-$ yarn add jellyweb --global
+$ npm install jellyweb
+$ npm install --global jellyweb
 ```
 
 run
