@@ -9,6 +9,7 @@ const commands = {
   init: () => require('../lib/commands/init')(argv),
   run: () => require('../lib/commands/run')(argv),
   serve: () => require('../lib/commands/serve')(argv),
+  build: () => require('../lib/commands/build')(argv),
 }
 
 if (argv._.length === 0) {
