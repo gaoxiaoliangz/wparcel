@@ -1,30 +1,98 @@
 # jellyweb
 
+A webpack based packing tool that makes your development easier
+
+<!-- TOC -->
+
+- [jellyweb](#jellyweb)
+  - [Getting started](#getting-started)
+  - [Cli Commands](#cli-commands)
+  - [Provided functions](#provided-functions)
+    - [resolveProject(relativePath)](#resolveprojectrelativepath)
+    - [configWebpack(features, webpackConfig)](#configwebpackfeatures-webpackconfig)
+  - [webpack.config.js](#webpackconfigjs)
+    - [Example](#example)
+    - [features](#features)
+      - [`polyfill`](#polyfill)
+      - [`node`](#node)
+      - [`excludeExternals`](#excludeexternals)
+        - [Config](#config)
+      - [`css` | `sass`](#css--sass)
+        - [Config](#config-1)
+      - [`babel`](#babel)
+        - [Config](#config-2)
+      - [`typescript`](#typescript)
+      - [`graphql`](#graphql)
+      - [`media` (enabled by default)](#media-enabled-by-default)
+        - [Config](#config-3)
+      - [`production`](#production)
+        - [Config](#config-4)
+      - [`verbose`](#verbose)
+      - [`disableDepCheck`](#disabledepcheck)
+
+<!-- /TOC -->
+
 ## Getting started
 
 install `jellyweb`
 ```
 $ yarn add jellyweb
+$ yarn add jellyweb --global
 ```
 
 run
 ```
-$ jellyweb
+$ jellyweb init
 ```
-and webpack.config.js is generated with default features
+
+webpack config and dev server config will be generated.
+Add index.js to src, and index.html to the root.
+
+```
+$ jellyweb serve
+```
+And you are good to go.
+
+## Cli Commands
+
+| Command | Description                                        | options                                                                      |
+| ------- | -------------------------------------------------- | ---------------------------------------------------------------------------- |
+| :--     | :--                                                | :--                                                                          |
+| init    | generate config files                              | `--ts`: generate tsconfig.json                                               |
+| serve   | start webpack dev server                           | `--ncc`: do not clear console, `--nob`: do not open browser on first compile |
+| build   | bundle asset files                                 |                                                                              |
+| run     | run jellyweb tasks, eg: `jellyweb run tasks/hi.js` |                                                                              |
+| --help  | show help docs                                     |                                                                              |
+
+## Provided functions
+
+You can `import { resolveProject, configWebpack } from 'jellyweb'` to access these functions.
+
+### resolveProject(relativePath)
+
+convert relative path to absolute path
+
+### configWebpack(features, webpackConfig)
+
+`features`: explained below
+
+`webpackConfig`: the same object as you would use in a normal webpack.config.js, this would override any config `generateConfig` produces.
+
+## webpack.config.js
+
+jellyweb generated webpack config files use `configWebpack` to abstract away the complexity of webpack config files. Everything is defined as features, suche babel, sass, media.
 
 You can enable or disable them as you wish. With jellyweb, you no longer need to struggle with tedious webpack config to get a tiny feature, but just config them as all sorts of handy common featues. And if anything you want is not provided by jellyweb, you can still define them in webpack config, jellyweb will merge them with the features you defined for you.
 
-## Example
+### Example
 
 webpack.config.js
 
 ```js
-const { resolveApp, generateConfig } = require('jellyweb')
+const { resolveProject, configWebpack } = require('jellyweb')
 
-module.exports = generateConfig({
+module.exports = configWebpack({
   polyfill: true,
-  react: true,
   babel: true,
   css: {
     postcss: true
@@ -37,54 +105,44 @@ module.exports = generateConfig({
   excludeExternals: true
 }, {
   entry: {
-    app: resolveApp('src/index.jsx')
+    app: resolveProject('src/index.jsx')
   },
   output: {
-    path: resolveApp('dist'),
+    path: resolveProject('dist'),
     filename: '[name].js'
   }
 })
 ```
 
-## Provided functions
-
-You can `import { resolveApp, generateConfig } from 'jellyweb'` to access these functions.
-
-### resolveApp(relativePath)
-
-convert relative path to absolute path
-
-### generateConfig(features, webpackConfig)
-
-## features
+### features
 
 object, the features you want to enable, set to `true` or config object to enable, `false` to disable.
 
 If a feature is set to `true`, default values under config will be used, if set to object, then this object will be merged with default config.
 
-### `polyfill`
+#### `polyfill`
 
 use babel-polyfill
 
-### `node`
+#### `node`
 
 bundle for node env
 
-### `excludeExternals`
+#### `excludeExternals`
 
 exclude `node_modules` from webpack bundle
 
-#### Config
+##### Config
 
 it is applied directly to webpack-node-externals
 
 - `whitelist`, default: `[]`, include packages in the build
 
-### `css` | `sass`
+#### `css` | `sass`
 
 support css/scss file
 
-#### Config
+##### Config
 
 - `sourceMap`, default: `true`
 - `extract`, default: `false`, extract to file, if false, css will be injected into head tag
@@ -92,45 +150,41 @@ support css/scss file
 - `isomorphic`, default: `false`
 - `postcss`, default: `false` (css only)
 
-### `babel`
+#### `babel`
 
-#### Config
+##### Config
 
 - `babelrc`, default with `es2015` preset, if this is present, default config or react config will be overridden
 - `react`, default: `false`, use `react-app` babel preset
 
-### `typescript`
+#### `typescript`
 
 enable typescript support
 
-### `graphql`
+#### `graphql`
 
 enable *.graphql and *.gql support
 
-### `media` (enabled by default)
+#### `media` (enabled by default)
 
 enable importing all kinds of files
 
-#### Config
+##### Config
 
 - `dataUrl`, default: `true`, import image file as base64 to avoid requests
 
-### `production`
+#### `production`
 
 add production optimizations for the build
 
-#### Config
+##### Config
 
 - `compress`, default: `true`
 
-### `verbose`
+#### `verbose`
 
 default: `false`, display detailed webpack info
 
-### `disableDepCheck`
+#### `disableDepCheck`
 
 default: `false`, check loader dependency
-
-## `webpackConfig`
-
-the same object as you would use in a normal webpack.config.js, this would override any config `generateConfig` produces.
