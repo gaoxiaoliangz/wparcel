@@ -1,6 +1,6 @@
 {
   "name": "jellyweb",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "A webpack based web application bundler that makes you life easier",
   "main": "lib/index.js",
   "bin": {

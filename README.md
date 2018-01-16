@@ -123,12 +123,15 @@ support css/scss file
 
 ##### Config
 
-- `babelrc`, default with `babel-preset-react-app` preset, if this is present, default config will be overridden
+- `babelrc`, default with `babel-preset-react-app` preset and plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
 - `merge`, default `true`, whether to merge(arrays are automaticly concated) `babelrc` with default `babelrc` or not
 
 #### `typescript`
 
 enable typescript support
+
+- `babelrc`, default with plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
+- `merge`, default `true`, whether to merge(arrays are automaticly concated) `babelrc` with default `babelrc` or not
 
 #### `graphql`
 
