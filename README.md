@@ -123,8 +123,8 @@ support css/scss file
 
 ##### Config
 
-- `babelrc`, default with `es2015` preset, if this is present, default config or react config will be overridden
-- `react`, default: `false`, use `react-app` babel preset
+- `babelrc`, default with `babel-preset-react-app` preset, if this is present, default config will be overridden
+- `merge`, default `true`, whether to merge(arrays are automaticly concated) `babelrc` with default `babelrc` or not
 
 #### `typescript`
 
