@@ -1,36 +1,6 @@
 # jellyweb
 
-A webpack based packing tool that makes your development easier
-
-<!-- TOC -->
-
-- [jellyweb](#jellyweb)
-  - [Getting started](#getting-started)
-  - [Cli Commands](#cli-commands)
-  - [Provided functions](#provided-functions)
-    - [resolveProject(relativePath)](#resolveprojectrelativepath)
-    - [configWebpack(features, webpackConfig)](#configwebpackfeatures-webpackconfig)
-  - [webpack.config.js](#webpackconfigjs)
-    - [Example](#example)
-    - [features](#features)
-      - [`polyfill`](#polyfill)
-      - [`node`](#node)
-      - [`excludeExternals`](#excludeexternals)
-        - [Config](#config)
-      - [`css` | `sass`](#css--sass)
-        - [Config](#config-1)
-      - [`babel`](#babel)
-        - [Config](#config-2)
-      - [`typescript`](#typescript)
-      - [`graphql`](#graphql)
-      - [`media` (enabled by default)](#media-enabled-by-default)
-        - [Config](#config-3)
-      - [`production`](#production)
-        - [Config](#config-4)
-      - [`verbose`](#verbose)
-      - [`disableDepCheck`](#disabledepcheck)
-
-<!-- /TOC -->
+A webpack based web application bundler that makes you life easier
 
 ## Getting started
 

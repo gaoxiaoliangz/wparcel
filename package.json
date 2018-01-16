@@ -1,7 +1,7 @@
 {
   "name": "jellyweb",
-  "version": "0.3.3",
-  "description": "lib/resolveApp lib/getBaseConfig",
+  "version": "0.3.4",
+  "description": "A webpack based web application bundler that makes you life easier",
   "main": "lib/index.js",
   "bin": {
     "jellyweb": "bin/index.js"
