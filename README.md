@@ -49,9 +49,9 @@ convert relative path to absolute path
 
 ## webpack.config.js
 
-jellyweb generated webpack config files use `configWebpack` to abstract away the complexity of webpack config files. Everything is defined as features, suche babel, sass, media.
+jellyweb generated webpack config files use `configWebpack` to abstract away the complexity of webpack config files. Everything is defined as features, such as babel, sass, media.
 
-You can enable or disable them as you wish. With jellyweb, you no longer need to struggle with tedious webpack config to get a tiny feature, but just config them as all sorts of handy common featues. And if anything you want is not provided by jellyweb, you can still define them in webpack config, jellyweb will merge them with the features you defined for you.
+You can enable or disable them as you wish. With jellyweb, you no longer need to struggle with tedious webpack config to get a tiny feature, but just config them as all sorts of handy common features. And if anything you want is not provided by jellyweb, you can still define them in webpack config, jellyweb will merge them with the features you defined for you.
 
 ### Example
 
@@ -124,14 +124,14 @@ support css/scss file
 ##### Config
 
 - `babelrc`, default with `babel-preset-react-app` preset and plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
-- `merge`, default `true`, whether to merge(arrays are automaticly concated) `babelrc` with default `babelrc` or not
+- `merge`, default `true`, whether to merge(arrays are automatically concatenated) `babelrc` with default `babelrc` or not
 
 #### `typescript`
 
 enable typescript support
 
 - `babelrc`, default with plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
-- `merge`, default `true`, whether to merge(arrays are automaticly concated) `babelrc` with default `babelrc` or not
+- `merge`, default `true`, whether to merge(arrays are automatically concatenated) `babelrc` with default `babelrc` or not
 
 #### `graphql`
 
