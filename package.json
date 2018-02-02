@@ -25,6 +25,7 @@
   "dependencies": {
     "chalk": "^2.3.0",
     "colors": "^1.1.2",
+    "eslint": "^4.16.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
