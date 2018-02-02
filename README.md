@@ -1,6 +1,6 @@
 # jellyweb
 
-A webpack based web application bundler that makes you life easier
+A webpack based web application bundler that makes your life easier
 
 ## Getting started
 
@@ -41,15 +41,15 @@ You can `import { resolveProject, configWebpack } from 'jellyweb'` to access the
 
 convert relative path to absolute path
 
-### configWebpack(features, webpackConfig)
+### configWebpack(config, webpackConfig)
 
-`features`: explained below
+`config`: explained below
 
 `webpackConfig`: the same object as you would use in a normal webpack.config.js, this would override any config `generateConfig` produces.
 
 ## webpack.config.js
 
-jellyweb generated webpack config files use `configWebpack` to abstract away the complexity of webpack config files. Everything is defined as features, such as babel, sass, media.
+jellyweb generated webpack config files use `configWebpack` to abstract away the complexity of webpack config files. Everything is defined as `features`, such as babel, sass, media, or `presets`.
 
 You can enable or disable them as you wish. With jellyweb, you no longer need to struggle with tedious webpack config to get a tiny feature, but just config them as all sorts of handy common features. And if anything you want is not provided by jellyweb, you can still define them in webpack config, jellyweb will merge them with the features you defined for you.
 
@@ -58,40 +58,35 @@ You can enable or disable them as you wish. With jellyweb, you no longer need to
 webpack.config.js
 
 ```js
-const { resolveProject, configWebpack } = require('jellyweb')
+const { configWebpack, resolveProject } = require('jellyweb')
 
 module.exports = configWebpack({
-  polyfill: true,
-  babel: true,
-  css: {
-    postcss: true
-  },
-  sass: {
-    scoped: true
-  },
-  disableDepCheck: false,
-  production: true,
-  excludeExternals: true
+  features: [
+    'babel',
+    'define',
+    'css',
+    ['media', {
+      dataUrl: true
+    }]
+  ],
+  production: false
 }, {
   entry: {
-    app: resolveProject('src/index.jsx')
+    main: resolveProject('src/index.js'),
   },
   output: {
-    path: resolveProject('dist'),
-    filename: '[name].js'
-  }
+    path: resolveProject('build'),
+    filename: '[name].js',
+    publicPath: '/static/'
+  },
+  devtool: 'sourcemap',
 })
+
 ```
 
 ### features
 
-object, the features you want to enable, set to `true` or config object to enable, `false` to disable.
-
-If a feature is set to `true`, default values under config will be used, if set to object, then this object will be merged with default config.
-
-#### `polyfill`
-
-use babel-polyfill
+array, the features you want to enable, it accepts string or array. If an array is found, the second element of the array will be the config for this feature.
 
 #### `node`
 
@@ -113,29 +108,31 @@ support css/scss file
 
 ##### Config
 
-- `sourceMap`, default: `true`
-- `extract`, default: `false`, extract to file, if false, css will be injected into head tag
+- `test`, test reg for rule
 - `scoped`, default: `false`
-- `isomorphic`, default: `false`
-- `postcss`, default: `false` (css only)
+- `postcss`, default: `false`
 
 #### `babel`
 
 ##### Config
 
-- `babelrc`, default with `babel-preset-react-app` preset and plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
-- `merge`, default `true`, whether to merge(arrays are automatically concatenated) `babelrc` with default `babelrc` or not
+- `test`, test reg for rule
+- `options`, default with `babel-preset-react-app` preset and plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
 
 #### `typescript`
 
 enable typescript support
 
-- `babelrc`, default with plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
-- `merge`, default `true`, whether to merge(arrays are automatically concatenated) `babelrc` with default `babelrc` or not
+- `test`, test reg for rule
+- `babelOptions`, default with plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
 
 #### `graphql`
 
 enable *.graphql and *.gql support
+
+##### Config
+
+- `test`, test reg for rule
 
 #### `media` (enabled by default)
 
@@ -144,19 +141,30 @@ enable importing all kinds of files
 ##### Config
 
 - `dataUrl`, default: `true`, import image file as base64 to avoid requests
+- `imageTest`, test reg for image files
+- `imageOptions`, default: { limit: 1000, name: 'img/[name]-[hash:8].[ext]' }
+- `fileOptions`, default: { name: 'file/[name]-[hash:8].[ext]' }
+
+#### `split-vendor`
+
+split external dependencies into a vendor js file
+
+### presets
+
+A preset is a collection of features
 
 #### `production`
 
-add production optimizations for the build
+`md5Hash`, `compress`, `extract-css`
 
-##### Config
+### Other Config
 
-- `compress`, default: `true`
+#### production
 
-#### `verbose`
+`boolean`, if set to `true`, `process.env.NODE_ENV` will be `production`
 
-default: `false`, display detailed webpack info
+#### scopedClassName
 
-#### `disableDepCheck`
+default: `[local]--[hash:base64:5]`
 
-default: `false`, check loader dependency
+When css or sass is enabled with `scoped` set to `true`, this config will take effect, and the class on the dom will be replaced with the naming rule defined by this config.
