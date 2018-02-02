@@ -1,6 +1,6 @@
 {
   "name": "jellyweb",
-  "version": "0.3.6",
+  "version": "0.4.0",
   "description": "A webpack based web application bundler that makes you life easier",
   "main": "lib/index.js",
   "bin": {
@@ -9,7 +9,9 @@
   "directories": {
     "lib": "lib"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "jest"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gaoxiaoliangz/jellyweb.git"
@@ -23,6 +25,7 @@
   "dependencies": {
     "chalk": "^2.3.0",
     "colors": "^1.1.2",
+    "eslint": "^4.16.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "lodash": "^4.17.4",
     "minimist": "^1.2.0",
@@ -34,5 +37,8 @@
     "webpack-md5-hash": "^0.0.5",
     "webpack-merge": "^4.1.1",
     "webpack-node-externals": "^1.6.0"
+  },
+  "devDependencies": {
+    "jest": "^22.1.4"
   }
 }
