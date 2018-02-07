@@ -31,7 +31,7 @@ And you are good to go.
 | serve   | start webpack dev server                           | `--ncc`: do not clear console, `--nob`: do not open browser on first compile |
 | build   | bundle asset files                                 |                                                                              |
 | run     | run jellyweb tasks, eg: `jellyweb run tasks/hi.js` |                                                                              |
-| --help  | show help docs                                     |                                                                              |
+| --help  | show help docs and feature configs                 |                                                                              |
 
 ## Provided functions
 
