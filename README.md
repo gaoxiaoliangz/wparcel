@@ -15,7 +15,7 @@ run
 $ jellyweb init
 ```
 
-webpack config and dev server config will be generated.
+jellyweb config and dev server config will be generated.
 Add index.js to src, and index.html to the root.
 
 ```
@@ -25,13 +25,19 @@ And you are good to go.
 
 ## Cli Commands
 
-| Command | Description                                        | options                                                                      |
-| ------- | -------------------------------------------------- | ---------------------------------------------------------------------------- |
-| init    | generate config files                              | `--ts`: generate tsconfig.json                                               |
-| serve   | start webpack dev server                           | `--ncc`: do not clear console, `--nob`: do not open browser on first compile |
-| build   | bundle asset files                                 |                                                                              |
-| run     | run jellyweb tasks, eg: `jellyweb run tasks/hi.js` |                                                                              |
-| --help  | show help docs and feature configs                 |                                                                              |
+| Command       | Options             | Description                                        |
+|---------------|---------------------|----------------------------------------------------|
+| init          |                     | generate config files                              |
+| serve         |                     | start webpack dev server                           |
+| \             | `--config`          | set config file path                               |
+| \             | `--devServerConfig` | set dev server config path                         |
+| \             | `--ncc`             | do not clear console                               |
+| \             | `--nob`             | do not open browser on first compile               |
+| build         |                     | bundle asset files                                 |
+| \             | `--config`          | set config file path                               |
+| run           |                     | run jellyweb tasks, eg: `jellyweb run tasks/hi.js` |
+| --help, -h    |                     | show help docs and feature configs                 |
+| --version, -v |                     | show version                                       |
 
 ## Provided functions
 
@@ -41,15 +47,15 @@ You can `import { resolveProject, configWebpack } from 'jellyweb'` to access the
 
 convert relative path to absolute path
 
-### configWebpack(config, webpackConfig)
+### configWebpack(features, webpackConfig)
 
-`config`: explained below
+`features`: details explained below, the same as what you will define under jellyweb.config.js
 
-`webpackConfig`: the same object as you would use in a normal webpack.config.js, this would override any config `generateConfig` produces.
+`webpackConfig`: the same object as you would use in a normal webpack.config.js, this would have a higher priority than what `configWebpack` produces.
 
-## webpack.config.js
+## jellyweb.config.js
 
-jellyweb generated webpack config files use `configWebpack` to abstract away the complexity of webpack config files. Everything is defined as `features`, such as babel, sass, media, or `presets`.
+jellyweb generated webpack config files use `configWebpack` to abstract away the complexity of webpack config files. Everything is defined as `features`, such as babel, sass, media, etc.
 
 You can enable or disable them as you wish. With jellyweb, you no longer need to struggle with tedious webpack config to get a tiny feature, but just config them as all sorts of handy common features. And if anything you want is not provided by jellyweb, you can still define them in webpack config, jellyweb will merge them with the features you defined for you.
 
@@ -58,19 +64,9 @@ You can enable or disable them as you wish. With jellyweb, you no longer need to
 webpack.config.js
 
 ```js
-const { configWebpack, resolveProject } = require('jellyweb')
+const { resolveProject } = require('jellyweb')
 
-module.exports = configWebpack({
-  features: [
-    'babel',
-    'define',
-    'css',
-    ['media', {
-      dataUrl: true
-    }]
-  ],
-  production: false
-}, {
+module.exports = {
   entry: {
     main: resolveProject('src/index.js'),
   },
@@ -80,13 +76,21 @@ module.exports = configWebpack({
     publicPath: '/static/'
   },
   devtool: 'sourcemap',
-})
-
+  features: {
+    babel: true,
+    define: {},
+    css: true,
+    media: {
+      dataUrl: true
+    },
+    production: false,
+  }
+}
 ```
 
 ### features
 
-array, the features you want to enable, it accepts string or array. If an array is found, the second element of the array will be the config for this feature.
+`object`, the features you want to enable, set `true` or config object to enable, `false` to disable.
 
 #### `node`
 
@@ -119,14 +123,14 @@ support css/scss file
 - `test`, test reg for rule
 - `options`, default with `babel-preset-react-app` preset and plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
 
-#### `typescript`
+#### `typeScript`
 
 enable typescript support
 
 - `test`, test reg for rule
 - `babelOptions`, default with plugins: `babel-plugin-syntax-dynamic-import`, `babel-plugin-lodash`
 
-#### `graphql`
+#### `graphQL`
 
 enable *.graphql and *.gql support
 
@@ -145,7 +149,7 @@ enable importing all kinds of files
 - `imageOptions`, default: { limit: 1000, name: 'img/[name]-[hash:8].[ext]' }
 - `fileOptions`, default: { name: 'file/[name]-[hash:8].[ext]' }
 
-#### `split-vendor`
+#### `splitVendor`
 
 split external dependencies into a vendor js file
 
