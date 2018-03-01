@@ -61,7 +61,7 @@ You can enable or disable them as you wish. With jellyweb, you no longer need to
 
 ### Example
 
-webpack.config.js
+jellyweb.config.js
 
 ```js
 const { resolveProject } = require('jellyweb')
