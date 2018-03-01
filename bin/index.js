@@ -20,7 +20,7 @@ if (argv._.length === 0) {
     // --help, -h
     require('../lib/commands/help')()
   } else {
-    print.error('Unknown command')
+    commands.build.call()
   }
 } else if (commands[argv._[0]]) {
    commands[argv._[0]].call()
