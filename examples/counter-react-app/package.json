@@ -1,0 +1,14 @@
+{
+  "name": "counter-react-app",
+  "scripts": {
+    "serve": "react-cli-service serve",
+    "build": "react-cli-service build"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  }
+}

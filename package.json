@@ -4,7 +4,7 @@
   "description": "A webpack based web application bundler that makes you life easier",
   "main": "lib/index.js",
   "bin": {
-    "jellyweb": "bin/index.js"
+    "react-cli-service": "bin/index.js"
   },
   "directories": {
     "lib": "lib"
