@@ -1,0 +1,42 @@
+{
+  "name": "@omystack/bundler",
+  "version": "0.7.0",
+  "description": "A webpack based web-application/library bundler that makes you life easier",
+  "main": "lib/index.js",
+  "bin": {
+    "bundler": "bin/index.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "yarn tsc",
+    "start": "node dist/index.js",
+    "debug": "node --inspect-brk dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaoxiaoliangz/omystack-bundler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gaoxiaoliangz/omystack-bundler/issues"
+  },
+  "homepage": "https://github.com/gaoxiaoliangz/omystack-bundler#readme",
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "colors": "^1.1.2",
+    "lodash": "^4.17.4",
+    "react-dev-utils": "^4.2.1",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.10.1",
+    "webpack-md5-hash": "^0.0.5",
+    "webpack-merge": "^4.1.1",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "devDependencies": {
+    "jest": "^22.1.4",
+    "typescript": "^3.4.5"
+  }
+}
