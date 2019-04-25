@@ -1,5 +1,5 @@
 {
-  "name": "counter-react-app",
+  "name": "example-counter-react-app",
   "scripts": {
     "serve": "react-cli-service serve",
     "build": "react-cli-service build"
@@ -10,5 +10,9 @@
   "dependencies": {
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
-  }
+  },
+  "devDependencies": {
+    "@omystack/bundler": "0.7.0"
+  },
+  "private": true
 }
