@@ -24,19 +24,29 @@
     "url": "https://github.com/gaoxiaoliangz/omystack-bundler/issues"
   },
   "homepage": "https://github.com/gaoxiaoliangz/omystack-bundler#readme",
-  "dependencies": {
-    "chalk": "^2.3.0",
-    "colors": "^1.1.2",
-    "lodash": "^4.17.4",
-    "react-dev-utils": "^4.2.1",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.10.1",
-    "webpack-md5-hash": "^0.0.5",
-    "webpack-merge": "^4.1.1",
-    "webpack-node-externals": "^1.6.0"
-  },
   "devDependencies": {
     "jest": "^22.1.4",
     "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.3",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "commander": "^2.20.0",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "lodash": "^4.17.11",
+    "mini-css-extract-plugin": "^0.6.0",
+    "node-sass": "^4.11.0",
+    "react-dev-utils": "^8.0.0",
+    "rxjs": "5.5.6",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.29.6",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.1",
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2"
   }
 }
