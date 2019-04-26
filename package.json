@@ -9,7 +9,8 @@
     "lerna": "^3.13.4"
   },
   "scripts": {
-    "bundler:add": "yarn workspace @omystack/bundler add"
+    "bundler:add": "yarn workspace @omystack/bundler add",
+    "bundler:build": "cd packages/bundler && yarn build"
   },
   "workspaces": [
     "packages/*"
