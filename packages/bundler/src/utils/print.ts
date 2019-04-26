@@ -1,4 +1,4 @@
-const chalk = require('chalk').default
+import chalk from 'chalk'
 
 const print = {
   log(...args) {
@@ -20,4 +20,4 @@ const print = {
   },
 }
 
-module.exports = print
+export default print

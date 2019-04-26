@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/gaoxiaoliangz/omystack-bundler#readme",
   "devDependencies": {
+    "@types/node": "^11.13.7",
     "jest": "^22.1.4",
     "typescript": "^3.4.5"
   },

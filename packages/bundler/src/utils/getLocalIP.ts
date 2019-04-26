@@ -1,4 +1,4 @@
-const os = require('os')
+import * as os from 'os'
 
 const getLocalIP = () => {
   let IPv4
@@ -17,4 +17,4 @@ const getLocalIP = () => {
   return IPv4
 }
 
-module.exports = getLocalIP
+export default getLocalIP

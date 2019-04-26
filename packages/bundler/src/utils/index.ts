@@ -1,17 +1,19 @@
-const _ = require('lodash')
-const path = require('path')
-const fs = require('fs')
-const getLocalIP = require('./get-local-ip')
-const print = require('./print')
+import * as _ from 'lodash'
+import * as path from 'path'
+import * as fs from 'fs'
+import getLocalIP from './getLocalIP'
+import print from './print'
 
-const capFirstLetter = word => {
+export { print }
+
+export const capFirstLetter = word => {
   return word
     .split('')
     .map((w, i) => (i === 0 ? w.toUpperCase() : w))
     .join('')
 }
 
-const isDepInstalled = dep => {
+export const isDepInstalled = dep => {
   try {
     require.resolve(resolveProject(path.join('node_modules', dep)))
     return true
@@ -20,7 +22,7 @@ const isDepInstalled = dep => {
   }
 }
 
-const fileExists = relPath => {
+export const fileExists = relPath => {
   try {
     require.resolve(resolveProject(relPath))
     return true
@@ -29,7 +31,7 @@ const fileExists = relPath => {
   }
 }
 
-function resolveProject(relativePath) {
+export function resolveProject(relativePath) {
   // Make sure any symlinks in the project folder are resolved:
   // https://github.com/facebookincubator/create-react-app/issues/637
   const projectDir = fs.realpathSync(process.cwd())
@@ -37,7 +39,7 @@ function resolveProject(relativePath) {
 }
 
 // merge objects with array without mutation
-const mergeAnything = (object, sources) => {
+export const mergeAnything = (object, sources) => {
   if (Array.isArray(sources)) {
     return [...object, ...sources]
   }
@@ -50,7 +52,7 @@ const mergeAnything = (object, sources) => {
   })
 }
 
-const copyFileWithExistenceCheck = (src, target) => {
+export const copyFileWithExistenceCheck = (src, target) => {
   if (!fs.existsSync(target)) {
     fs.copyFileSync(src, target)
     return true
@@ -59,29 +61,17 @@ const copyFileWithExistenceCheck = (src, target) => {
   return false
 }
 
-function endsWith(str1, str2) {
+export function endsWith(str1, str2) {
   if (str1.length < str2.length) {
     return false
   }
   return str1.indexOf(str2) === str1.length - str2.length
 }
 
-const getFirstExistingFile = chain => {
+export const getFirstExistingFile = chain => {
   for (const file of chain) {
     if (fileExists(file)) {
       return file
     }
   }
 }
-
-exports.resolveProject = resolveProject
-exports.isDepInstalled = isDepInstalled
-exports.mergeAnything = mergeAnything
-exports.capFirstLetter = capFirstLetter
-exports.getLocalIP = getLocalIP
-exports.copyFileWithExistenceCheck = copyFileWithExistenceCheck
-exports.endsWith = endsWith
-exports.print = print
-exports.capFirstLetter = capFirstLetter
-exports.fileExists = fileExists
-exports.getFirstExistingFile = getFirstExistingFile

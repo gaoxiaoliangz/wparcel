@@ -1,6 +1,6 @@
-const Rx = require('rxjs/Rx')
-const clearConsole = require('react-dev-utils/clearConsole')
-const { print } = require('./utils')
+import * as Rx from 'rxjs/Rx'
+import clearConsole from 'react-dev-utils/clearConsole'
+import { print } from './utils'
 
 process.on('unhandledRejection', err => {
   throw err
@@ -28,6 +28,10 @@ class Timer {
     }
     return 'N/A'
   }
+
+  running: boolean
+  startTime: Date
+  endTime: Date
 
   constructor() {
     this.running = false
@@ -67,9 +71,10 @@ const runTask = (taskFn, context) => {
     printTaskInfo(`Running ...`)
   }
 
-  const handleTaskEnd = result => {
-    printTaskInfo(`Finished in ${taskTimer.end().span}s${result ? ', ' + result : ''}`)
-    return result
+  const handleTaskEnd = (result?: string) => {
+    printTaskInfo(
+      `Finished in ${taskTimer.end().span}s${result ? ', ' + result : ''}`
+    )
   }
 
   try {
@@ -108,7 +113,7 @@ const runTask = (taskFn, context) => {
       } else if (result && result.then) {
         resolve(result.then(handleTaskEnd))
       } else {
-        resolve(handleTaskEnd(result))
+        resolve(handleTaskEnd() as any)
       }
     })
   } catch (error) {
@@ -116,4 +121,4 @@ const runTask = (taskFn, context) => {
   }
 }
 
-module.exports = runTask
+export default runTask

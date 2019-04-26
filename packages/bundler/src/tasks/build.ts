@@ -1,10 +1,10 @@
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const clearConsole = require('react-dev-utils/clearConsole')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles')
-const { print, resolveProject, getFirstExistingFile } = require('../utils')
-const baseConfig = require('../webpack.config.base')
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import clearConsole from 'react-dev-utils/clearConsole'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
+import { print, resolveProject, getFirstExistingFile } from '../utils'
+import baseConfig from '../webpack.config.base'
 
 const CONFIG_FALLBACK_CHAIN = [
   'webpack.config.prod.js',
@@ -67,7 +67,7 @@ const taskBuild = ({ argv, Observable, taskStatus, analysis }) => {
           } else {
             observer.next(taskStatus.changeComplete)
           }
-        },
+        }
       )
     })
   }
@@ -85,4 +85,4 @@ const taskBuild = ({ argv, Observable, taskStatus, analysis }) => {
   })
 }
 
-module.exports = taskBuild
+export default taskBuild
