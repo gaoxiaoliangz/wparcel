@@ -1,0 +1,13 @@
+{
+  "name": "example-es-app",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "serve",
+    "build": "bundler build"
+  },
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@omystack/bundler": "0.7.0"
+  }
+}
