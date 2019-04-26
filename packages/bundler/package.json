@@ -26,6 +26,9 @@
   "homepage": "https://github.com/gaoxiaoliangz/omystack-bundler#readme",
   "devDependencies": {
     "@types/node": "^11.13.7",
+    "@types/webpack": "^4.4.27",
+    "@types/webpack-bundle-analyzer": "^2.13.1",
+    "@types/webpack-merge": "^4.1.5",
     "jest": "^22.1.4",
     "typescript": "^3.4.5"
   },

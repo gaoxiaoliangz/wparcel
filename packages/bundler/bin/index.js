@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const program = require('commander')
-const runTask = require('../lib/runTask')
-const buildTask = require('../lib/tasks/build')
+const runTask = require('../lib/runTask').default
+const buildTask = require('../lib/tasks/build').default
 
 program
   .version('0.1.0')

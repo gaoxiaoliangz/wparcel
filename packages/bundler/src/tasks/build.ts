@@ -1,8 +1,8 @@
-import webpack from 'webpack'
-import merge from 'webpack-merge'
+import * as webpack from 'webpack'
+import * as merge from 'webpack-merge'
 import clearConsole from 'react-dev-utils/clearConsole'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
-import checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
+import * as checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
 import { print, resolveProject, getFirstExistingFile } from '../utils'
 import baseConfig from '../webpack.config.base'
 
@@ -35,7 +35,7 @@ const taskBuild = ({ argv, Observable, taskStatus, analysis }) => {
           argv,
         })
       : webpackConfig0
-  let mergedConfig = merge(baseConfig, webpackConfig)
+  let mergedConfig = merge(baseConfig as webpack.Configuration, webpackConfig)
   if (analysis) {
     mergedConfig = merge(mergedConfig, {
       plugins: [

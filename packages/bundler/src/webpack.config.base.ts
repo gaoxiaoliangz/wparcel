@@ -1,13 +1,13 @@
 const path = require('path')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+// const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const resolvePackagePath = relPath => path.resolve(process.cwd(), relPath)
 
-module.exports = {
+export default {
   output: {
-    path: resolvePackagePath('./lib'),
-    publicPath: '/lib/',
+    path: resolvePackagePath('./dist'),
+    publicPath: '/dist/',
     filename: '[name].js',
     chunkFilename: '[id].js',
     libraryTarget: 'commonjs2',
@@ -20,13 +20,13 @@ module.exports = {
         loader: require.resolve('babel-loader'),
         options: {
           babelrc: false,
-          plugins: [require.resolve('babel-plugin-transform-vue-jsx')],
+          // plugins: [require.resolve('babel-plugin-transform-vue-jsx')],
         },
       },
-      {
-        test: /\.vue$/,
-        loader: require.resolve('vue-loader'),
-      },
+      // {
+      //   test: /\.vue$/,
+      //   loader: require.resolve('vue-loader'),
+      // },
       {
         test: /\.(sc|c|sa)ss$/,
         use: [
@@ -57,7 +57,10 @@ module.exports = {
     extensions: ['.vue', '.js', '.jsx', '.json'],
     symlinks: false,
   },
-  plugins: [new VueLoaderPlugin(), new MiniCssExtractPlugin()],
+  plugins: [
+    // new VueLoaderPlugin(),
+    new MiniCssExtractPlugin(),
+  ],
   mode: 'production',
   optimization: {
     minimize: false,
