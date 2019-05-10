@@ -1,8 +1,8 @@
 {
   "name": "example-counter-react-app",
   "scripts": {
-    "serve": "react-cli-service serve",
-    "build": "react-cli-service build"
+    "start": "wparcel index.html",
+    "build": "wparcel build index.html"
   },
   "version": "1.0.0",
   "main": "index.js",

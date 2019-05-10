@@ -4,7 +4,7 @@
   "description": "A webpack-based parcel-like web application bundler that makes you life easier",
   "main": "lib/index.js",
   "bin": {
-    "bundler": "bin/index.js"
+    "wparcel": "bin/index.js"
   },
   "directories": {
     "lib": "lib"
