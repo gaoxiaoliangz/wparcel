@@ -1,7 +1,6 @@
 {
-  "name": "omystack-bundler",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "wparcel-workspaces",
+  "version": "0.7.0",
   "repository": "git@github.com:gaoxiaoliangz/omystack-bundler.git",
   "author": "gaoxiaoliangz <gaoxiaoliangz@gmail.com>",
   "license": "MIT",
@@ -9,8 +8,8 @@
     "lerna": "^3.13.4"
   },
   "scripts": {
-    "bundler:add": "yarn workspace @omystack/bundler add",
-    "bundler:build": "cd packages/bundler && yarn build"
+    "bundler:add": "yarn workspace wparcel add",
+    "bundler:build": "cd packages/wparcel && yarn build"
   },
   "workspaces": [
     "packages/*"
