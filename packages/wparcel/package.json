@@ -1,7 +1,7 @@
 {
-  "name": "@omystack/bundler",
+  "name": "wparcel",
   "version": "0.7.0",
-  "description": "A webpack based web-application/library bundler that makes you life easier",
+  "description": "A webpack-based parcel-like web application bundler that makes you life easier",
   "main": "lib/index.js",
   "bin": {
     "bundler": "bin/index.js"
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gaoxiaoliangz/omystack-bundler.git"
+    "url": "git+https://github.com/gaoxiaoliangz/wparcel.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gaoxiaoliangz/omystack-bundler/issues"
+    "url": "https://github.com/gaoxiaoliangz/wparcel/issues"
   },
-  "homepage": "https://github.com/gaoxiaoliangz/omystack-bundler#readme",
+  "homepage": "https://github.com/gaoxiaoliangz/wparcel#readme",
   "devDependencies": {
     "@types/node": "^11.13.7",
     "@types/webpack": "^4.4.27",

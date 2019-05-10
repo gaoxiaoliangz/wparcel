@@ -1,7 +1,7 @@
 {
   "name": "wparcel-workspaces",
   "version": "0.7.0",
-  "repository": "git@github.com:gaoxiaoliangz/omystack-bundler.git",
+  "repository": "git@github.com:gaoxiaoliangz/wparcel.git",
   "author": "gaoxiaoliangz <gaoxiaoliangz@gmail.com>",
   "license": "MIT",
   "devDependencies": {

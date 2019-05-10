@@ -12,7 +12,7 @@
     "react-dom": "^16.4.1"
   },
   "devDependencies": {
-    "@omystack/bundler": "0.7.0"
+    "wparcel": "0.7.0"
   },
   "private": true
 }

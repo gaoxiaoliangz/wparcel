@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@omystack/bundler": "0.7.0",
+    "wparcel": "0.7.0",
     "serve": "^11.0.0"
   }
 }
