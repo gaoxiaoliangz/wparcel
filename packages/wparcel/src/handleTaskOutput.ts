@@ -11,10 +11,8 @@ const format = time => {
   return time.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1')
 }
 
-const printInfo = (label, info) => {
-  const start = new Date()
-  print.info(`[${format(start)}] ${label.toUpperCase()}`)
-  print.log(info)
+const printWithTaskName = taskName => (...args) => {
+  print.info(taskName, ...args)
 }
 
 class Timer {
@@ -52,19 +50,20 @@ class Timer {
 
 interface OutputConfig {
   keepConsole?: boolean
+  taskName: string
 }
 
-const defaultConfig: OutputConfig = {
+const defaultConfig: Partial<OutputConfig> = {
   keepConsole: true,
 }
 
-const handleTaskOutput = (taskOutput, config?: OutputConfig) => {
+const handleTaskOutput = async (taskOutput, config: OutputConfig) => {
   const finalConfig = {
     ...defaultConfig,
     ...config,
   }
-  const { keepConsole } = finalConfig
-  const printTaskInfo = printInfo.bind(null, 'build')
+  const { keepConsole, taskName } = finalConfig
+  const taskPrint = printWithTaskName(taskName)
   const taskTimer = new Timer()
   const watchTimer = new Timer()
 
@@ -72,51 +71,62 @@ const handleTaskOutput = (taskOutput, config?: OutputConfig) => {
 
   const printStartInfo = () => {
     taskTimer.start()
-    printTaskInfo(`Running ...`)
+    taskPrint(`started ...`)
   }
 
   const handleTaskEnd = (result?: string) => {
-    printTaskInfo(
-      `Finished in ${taskTimer.end().span}s${result ? ', ' + result : ''}`
-    )
+    if (result) {
+      print.log(result)
+    }
+    taskPrint(`finished in ${taskTimer.end().span}s`)
+  }
+
+  const handleError = error => {
+    print.error(error)
+    process.exit(1)
   }
 
   try {
-    const result = taskOutput
-    return new Promise(resolve => {
-      printStartInfo()
+    printStartInfo()
 
-      if (result instanceof Rx.Observable) {
-        result.subscribe({
-          next(v) {
-            if (!keepConsole) {
-              clearConsole()
+    if (taskOutput instanceof Rx.Observable) {
+      taskOutput.subscribe({
+        next(v) {
+          if (!keepConsole) {
+            clearConsole()
+          }
+          if (v === TASK_STATUS.CHANGE_START) {
+            watchTimer.start()
+            taskPrint('changed ...')
+          } else if (v === TASK_STATUS.CHANGE_COMPLETE) {
+            let span = watchTimer.end().span
+            if (span === 'N/A') {
+              span = Timer.calcSpan(taskTimer.startTime, watchTimer.endTime)
             }
-            if (v === TASK_STATUS.CHANGE_START) {
-              watchTimer.start()
-              printTaskInfo('Changed ...')
-            } else if (v === TASK_STATUS.CHANGE_COMPLETE) {
-              let span = watchTimer.end().span
-              if (span === 'N/A') {
-                span = Timer.calcSpan(taskTimer.startTime, watchTimer.endTime)
-              }
-              printTaskInfo(`Change completed in ${span}s`)
-            } else {
-              print.warn(`Invalid task status: ${v}`)
-            }
-          },
-          complete() {
-            handleTaskEnd()
-          },
-        })
-      } else if (result && result.then) {
-        resolve(result.then(handleTaskEnd))
-      } else {
-        resolve(handleTaskEnd() as any)
-      }
-    })
+            taskPrint(`change completed in ${span}s`)
+          } else {
+            print.warn(`Invalid task status: ${v}`)
+          }
+        },
+        complete() {
+          handleTaskEnd()
+        },
+        error(error) {
+          handleError(error)
+        },
+      })
+      return
+    }
+
+    const then = taskOutput && taskOutput.then
+    if (typeof then === 'function') {
+      then.call(taskOutput, handleTaskEnd, handleError)
+      return
+    }
+
+    handleTaskEnd()
   } catch (error) {
-    return Promise.reject(error)
+    handleError(error)
   }
 }
 

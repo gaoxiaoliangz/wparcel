@@ -2,7 +2,6 @@
 // @ts-check
 
 const program = require('commander')
-const runTask = require('../lib/runTask').default
 const build = require('../lib/tasks/build').default
 const handleTaskOutput = require('../lib/handleTaskOutput').default
 
@@ -20,11 +19,9 @@ if (program.build) {
       watch: program.watch,
       analysis: program.analysis,
       configFilePath: program.configFilePath,
-    })
+    }),
+    {
+      taskName: 'Build',
+    }
   )
-  // runTask(buildTask, {
-  //   name: program.taskName || 'build',
-  //   argv: program,
-  //   analysis: program.analysis,
-  // })
 }

@@ -98,10 +98,11 @@ const build = (config: BuildConfig) => {
       if (err) {
         return reject(err)
       }
-      printWebpackStats(stats, {
-        colors: true,
-      })
-      return resolve()
+      return resolve(
+        stats.toString({
+          colors: true,
+        })
+      )
     })
   })
 }
