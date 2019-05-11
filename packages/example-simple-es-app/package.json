@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "start": "serve",
-    "build": "wparcel build"
+    "build": "wparcel build index.html"
   },
   "license": "MIT",
   "private": true,

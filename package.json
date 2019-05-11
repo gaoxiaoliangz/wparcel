@@ -8,8 +8,10 @@
     "lerna": "^3.13.4"
   },
   "scripts": {
-    "bundler:add": "yarn workspace wparcel add",
-    "bundler:build": "cd packages/wparcel && yarn build"
+    "watch": "yarn wparcel:build --watch",
+    "build": "yarn wparcel:build",
+    "wparcel:add": "yarn workspace wparcel add",
+    "wparcel:build": "cd packages/wparcel && yarn build"
   },
   "workspaces": [
     "packages/*"
