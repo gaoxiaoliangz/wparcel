@@ -9,6 +9,8 @@
     "outDir": "lib",
     "sourceMap": true,
     "declaration": true,
-    "allowJs": false
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   }
 }

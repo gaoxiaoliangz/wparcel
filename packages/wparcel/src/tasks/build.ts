@@ -1,12 +1,9 @@
-import * as webpack from 'webpack'
-import * as Rx from 'rxjs/Rx'
-import * as merge from 'webpack-merge'
-import { Configuration } from 'webpack'
+import webpack from 'webpack'
+import Rx from 'rxjs/Rx'
+import merge from 'webpack-merge'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
-import * as checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
-import { print, resolveProject, getFirstExistingFile } from '../utils'
-import baseWebpackConfig from '../webpack.config.base'
 import { TASK_STATUS } from '../constants'
+import { resolveWebpackConfig } from '../helpers/helpers'
 
 const CONFIG_FALLBACK_CHAIN = [
   'webpack.config.prod.js',
@@ -34,19 +31,8 @@ interface BuildConfig {
 
 const build = (config: BuildConfig) => {
   const { analysis, configFilePath, watch } = config
-  // 用户指定的 webpack 配置文件
-  let webpackConfig = {}
-  if (configFilePath) {
-    if (!checkRequiredFiles(configFilePath)) {
-      process.exit(1)
-    }
-    webpackConfig = require(configFilePath)
-    print.log(`${configFilePath} is being used`)
-  }
-  let finalWebpackConfig = merge(
-    baseWebpackConfig as Configuration,
-    webpackConfig
-  )
+  let webpackConfig = resolveWebpackConfig(configFilePath)
+
   // const requiredFiles = []
   // if (argv.config) {
   //   requiredFiles.push(argv.config)
@@ -67,7 +53,7 @@ const build = (config: BuildConfig) => {
   //     : webpackConfig0
   // let mergedConfig = merge(baseConfig as webpack.Configuration, webpackConfig)
   if (analysis) {
-    finalWebpackConfig = merge(finalWebpackConfig, {
+    webpackConfig = merge(webpackConfig, {
       plugins: [
         new BundleAnalyzerPlugin({
           analyzerPort: 8022,
@@ -75,7 +61,7 @@ const build = (config: BuildConfig) => {
       ],
     })
   }
-  const compiler = webpack(finalWebpackConfig)
+  const compiler = webpack(webpackConfig)
 
   if (watch) {
     return Rx.Observable.create(observer => {

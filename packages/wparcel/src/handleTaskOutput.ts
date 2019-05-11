@@ -1,5 +1,5 @@
-import * as Rx from 'rxjs/Rx'
-import * as clearConsole from 'react-dev-utils/clearConsole'
+import Rx from 'rxjs/Rx'
+import clearConsole from 'react-dev-utils/clearConsole'
 import { print } from './utils'
 import { TASK_STATUS } from './constants'
 
