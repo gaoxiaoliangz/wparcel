@@ -10,7 +10,8 @@ program
   .option('build', 'bundle js code')
   .option('-w, --watch', 'enable watch mode')
   .option('-c, --config <config>', 'config file path')
-  .option('--analysis', 'show webpack-bundle-analyzer')
+  .option('-a, --analysis', 'show webpack-bundle-analyzer')
+  .option('-k, --keep-console', 'keep console output')
   .parse(process.argv)
 
 if (program.build) {
@@ -22,6 +23,7 @@ if (program.build) {
     }),
     {
       taskName: 'Build',
+      keepConsole: program.keepConsole,
     }
   )
 }

@@ -2,7 +2,6 @@ import * as webpack from 'webpack'
 import * as Rx from 'rxjs/Rx'
 import * as merge from 'webpack-merge'
 import { Configuration } from 'webpack'
-import clearConsole from 'react-dev-utils/clearConsole'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import * as checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
 import { print, resolveProject, getFirstExistingFile } from '../utils'
@@ -15,8 +14,16 @@ const CONFIG_FALLBACK_CHAIN = [
   'webpack.config.dev.js',
 ]
 
-const printWebpackStats = (stats, config) => {
-  console.log(stats.toString(config))
+const toOutputString = (stats, config?) => {
+  return stats.toString(
+    config || {
+      colors: true,
+    }
+  )
+}
+
+const toErrorOutputString = stats => {
+  return stats.toString('errors-only')
 }
 
 interface BuildConfig {
@@ -73,7 +80,9 @@ const build = (config: BuildConfig) => {
   if (watch) {
     return Rx.Observable.create(observer => {
       compiler.hooks.done.tap('invalid', () => {
-        observer.next(TASK_STATUS.CHANGE_START)
+        observer.next({
+          type: TASK_STATUS.CHANGE_START,
+        })
       })
       compiler.watch(
         {
@@ -82,11 +91,14 @@ const build = (config: BuildConfig) => {
         },
         (err, stats) => {
           if (err || stats.hasErrors()) {
-            // TODO: 这个应该放在 runTask 里处理，包括应该可以控制是否清除
-            clearConsole()
-            printWebpackStats(stats, finalWebpackConfig.stats)
+            observer.next({
+              type: TASK_STATUS.CHANGE_ERROR,
+              payload: toErrorOutputString(stats),
+            })
           } else {
-            observer.next(TASK_STATUS.CHANGE_COMPLETE)
+            observer.next({
+              type: TASK_STATUS.CHANGE_COMPLETE,
+            })
           }
         }
       )
@@ -98,11 +110,13 @@ const build = (config: BuildConfig) => {
       if (err) {
         return reject(err)
       }
-      return resolve(
-        stats.toString({
-          colors: true,
-        })
-      )
+      const hasError = stats.hasErrors()
+      // TODO: 是否需要特殊处理？
+      // const hasWarning = stats.hasWarnings()
+      if (hasError) {
+        return reject(toErrorOutputString(stats))
+      }
+      return resolve(toOutputString(stats))
     })
   })
 }

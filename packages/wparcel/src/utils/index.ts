@@ -5,6 +5,10 @@ import print from './print'
 
 export { print }
 
+export const formatTime = (time: Date) => {
+  return time.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1')
+}
+
 export const capFirstLetter = word => {
   return word
     .split('')

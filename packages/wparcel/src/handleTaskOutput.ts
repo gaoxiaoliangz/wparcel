@@ -1,5 +1,5 @@
 import * as Rx from 'rxjs/Rx'
-import clearConsole from 'react-dev-utils/clearConsole'
+import * as clearConsole from 'react-dev-utils/clearConsole'
 import { print } from './utils'
 import { TASK_STATUS } from './constants'
 
@@ -7,12 +7,9 @@ process.on('unhandledRejection', err => {
   throw err
 })
 
-const format = time => {
-  return time.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1')
-}
-
 const printWithTaskName = taskName => (...args) => {
-  print.info(taskName, ...args)
+  // TODO: 用背景色
+  print.info(`[${taskName}]`, ...args)
 }
 
 class Timer {
@@ -91,21 +88,37 @@ const handleTaskOutput = async (taskOutput, config: OutputConfig) => {
 
     if (taskOutput instanceof Rx.Observable) {
       taskOutput.subscribe({
-        next(v) {
+        next(action) {
+          const { type, payload } = action
           if (!keepConsole) {
             clearConsole()
           }
-          if (v === TASK_STATUS.CHANGE_START) {
-            watchTimer.start()
-            taskPrint('changed ...')
-          } else if (v === TASK_STATUS.CHANGE_COMPLETE) {
-            let span = watchTimer.end().span
-            if (span === 'N/A') {
-              span = Timer.calcSpan(taskTimer.startTime, watchTimer.endTime)
-            }
-            taskPrint(`change completed in ${span}s`)
-          } else {
-            print.warn(`Invalid task status: ${v}`)
+
+          switch (type) {
+            case TASK_STATUS.CHANGE_START:
+              watchTimer.start()
+              taskPrint('changed...')
+              break
+
+            case TASK_STATUS.CHANGE_ERROR:
+              print.error(payload || 'Unknown error occurred')
+              break
+
+            case TASK_STATUS.CHANGE_COMPLETE:
+              let span = watchTimer.end().span
+              if (span === 'N/A') {
+                span = Timer.calcSpan(taskTimer.startTime, watchTimer.endTime)
+              }
+
+              if (payload) {
+                print.log(payload)
+              }
+              taskPrint(`change completed in ${span}s`)
+              break
+
+            default:
+              print.warn(`Invalid task status: ${type}`)
+              break
           }
         },
         complete() {
