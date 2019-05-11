@@ -1,10 +1,13 @@
 import * as webpack from 'webpack'
+import * as Rx from 'rxjs/Rx'
 import * as merge from 'webpack-merge'
+import { Configuration } from 'webpack'
 import clearConsole from 'react-dev-utils/clearConsole'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import * as checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
 import { print, resolveProject, getFirstExistingFile } from '../utils'
-import baseConfig from '../webpack.config.base'
+import baseWebpackConfig from '../webpack.config.base'
+import { TASK_STATUS } from '../constants'
 
 const CONFIG_FALLBACK_CHAIN = [
   'webpack.config.prod.js',
@@ -16,28 +19,48 @@ const printWebpackStats = (stats, config) => {
   console.log(stats.toString(config))
 }
 
-const taskBuild = ({ argv, Observable, taskStatus, analysis }) => {
-  const requiredFiles = []
-  if (argv.config) {
-    requiredFiles.push(argv.config)
-  } else {
-    const configFile = getFirstExistingFile(CONFIG_FALLBACK_CHAIN)
-    requiredFiles.push(configFile ? configFile : CONFIG_FALLBACK_CHAIN[0])
+interface BuildConfig {
+  analysis: boolean
+  configFilePath: string
+  watch: boolean
+}
+
+const build = (config: BuildConfig) => {
+  const { analysis, configFilePath, watch } = config
+  // 用户指定的 webpack 配置文件
+  let webpackConfig = {}
+  if (configFilePath) {
+    if (!checkRequiredFiles(configFilePath)) {
+      process.exit(1)
+    }
+    webpackConfig = require(configFilePath)
+    print.log(`${configFilePath} is being used`)
   }
-  if (!checkRequiredFiles(requiredFiles)) {
-    process.exit(1)
-  }
-  const webpackConfigFile = resolveProject(requiredFiles[0])
-  const webpackConfig0 = require(webpackConfigFile)
-  const webpackConfig =
-    typeof webpackConfig0 === 'function'
-      ? webpackConfig0({
-          argv,
-        })
-      : webpackConfig0
-  let mergedConfig = merge(baseConfig as webpack.Configuration, webpackConfig)
+  let finalWebpackConfig = merge(
+    baseWebpackConfig as Configuration,
+    webpackConfig
+  )
+  // const requiredFiles = []
+  // if (argv.config) {
+  //   requiredFiles.push(argv.config)
+  // } else {
+  //   const configFile = getFirstExistingFile(CONFIG_FALLBACK_CHAIN)
+  //   requiredFiles.push(configFile ? configFile : CONFIG_FALLBACK_CHAIN[0])
+  // }
+  // if (!checkRequiredFiles(requiredFiles)) {
+  //   process.exit(1)
+  // }
+  // const webpackConfigFile = resolveProject(requiredFiles[0])
+  // const webpackConfig0 = require(webpackConfigFile)
+  // const webpackConfig =
+  //   typeof webpackConfig0 === 'function'
+  //     ? webpackConfig0({
+  //         argv,
+  //       })
+  //     : webpackConfig0
+  // let mergedConfig = merge(baseConfig as webpack.Configuration, webpackConfig)
   if (analysis) {
-    mergedConfig = merge(mergedConfig, {
+    finalWebpackConfig = merge(finalWebpackConfig, {
       plugins: [
         new BundleAnalyzerPlugin({
           analyzerPort: 8022,
@@ -45,14 +68,12 @@ const taskBuild = ({ argv, Observable, taskStatus, analysis }) => {
       ],
     })
   }
-  const compiler = webpack(mergedConfig)
+  const compiler = webpack(finalWebpackConfig)
 
-  print.log(`${webpackConfigFile} is being used`)
-
-  if (argv.watch || argv.w) {
-    return Observable.create(observer => {
+  if (watch) {
+    return Rx.Observable.create(observer => {
       compiler.hooks.done.tap('invalid', () => {
-        observer.next(taskStatus.changeStart)
+        observer.next(TASK_STATUS.CHANGE_START)
       })
       compiler.watch(
         {
@@ -63,9 +84,9 @@ const taskBuild = ({ argv, Observable, taskStatus, analysis }) => {
           if (err || stats.hasErrors()) {
             // TODO: 这个应该放在 runTask 里处理，包括应该可以控制是否清除
             clearConsole()
-            printWebpackStats(stats, mergedConfig.stats)
+            printWebpackStats(stats, finalWebpackConfig.stats)
           } else {
-            observer.next(taskStatus.changeComplete)
+            observer.next(TASK_STATUS.CHANGE_COMPLETE)
           }
         }
       )
@@ -85,4 +106,4 @@ const taskBuild = ({ argv, Observable, taskStatus, analysis }) => {
   })
 }
 
-export default taskBuild
+export default build

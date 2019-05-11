@@ -1,6 +1,7 @@
 import * as Rx from 'rxjs/Rx'
 import clearConsole from 'react-dev-utils/clearConsole'
 import { print } from './utils'
+import { TASK_STATUS } from './constants'
 
 process.on('unhandledRejection', err => {
   throw err
@@ -14,11 +15,6 @@ const printInfo = (label, info) => {
   const start = new Date()
   print.info(`[${format(start)}] ${label.toUpperCase()}`)
   print.log(info)
-}
-
-const taskStatus = {
-  changeStart: 'change-start',
-  changeComplete: 'change-complete',
 }
 
 class Timer {
@@ -54,13 +50,21 @@ class Timer {
   }
 }
 
-/**
- * @param {Function} taskFn
- * @param {{ name: String, argv: { ncc: Boolean } }} context
- */
-const runTask = (taskFn, context) => {
-  const { name, argv, ...rest } = context
-  const printTaskInfo = printInfo.bind(null, name)
+interface OutputConfig {
+  keepConsole?: boolean
+}
+
+const defaultConfig: OutputConfig = {
+  keepConsole: true,
+}
+
+const handleTaskOutput = (taskOutput, config?: OutputConfig) => {
+  const finalConfig = {
+    ...defaultConfig,
+    ...config,
+  }
+  const { keepConsole } = finalConfig
+  const printTaskInfo = printInfo.bind(null, 'build')
   const taskTimer = new Timer()
   const watchTimer = new Timer()
 
@@ -78,25 +82,20 @@ const runTask = (taskFn, context) => {
   }
 
   try {
-    const result = taskFn({
-      Observable: Rx.Observable,
-      taskStatus,
-      argv,
-      ...rest,
-    })
+    const result = taskOutput
     return new Promise(resolve => {
       printStartInfo()
 
       if (result instanceof Rx.Observable) {
         result.subscribe({
           next(v) {
-            if (!argv.ncc) {
+            if (!keepConsole) {
               clearConsole()
             }
-            if (v === taskStatus.changeStart) {
+            if (v === TASK_STATUS.CHANGE_START) {
               watchTimer.start()
               printTaskInfo('Changed ...')
-            } else if (v === taskStatus.changeComplete) {
+            } else if (v === TASK_STATUS.CHANGE_COMPLETE) {
               let span = watchTimer.end().span
               if (span === 'N/A') {
                 span = Timer.calcSpan(taskTimer.startTime, watchTimer.endTime)
@@ -121,4 +120,4 @@ const runTask = (taskFn, context) => {
   }
 }
 
-export default runTask
+export default handleTaskOutput
