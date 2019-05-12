@@ -1,22 +1,24 @@
 import path from 'path'
 // import VueLoaderPlugin from 'vue-loader/lib/plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-
-const resolvePackagePath = relPath => path.resolve(process.cwd(), relPath)
+import { resolvePathInProject } from './utils'
 
 export default {
+  entry: {
+    index: resolvePathInProject('./src/index.js'),
+  },
   output: {
-    path: resolvePackagePath('./dist'),
+    path: resolvePathInProject('./dist'),
     publicPath: '/dist/',
     filename: '[name].js',
-    chunkFilename: '[id].js',
-    libraryTarget: 'commonjs2',
+    // chunkFilename: '[id].js',
+    // libraryTarget: 'commonjs2',
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        include: resolvePackagePath('./src'),
+        include: resolvePathInProject('./src'),
         loader: require.resolve('babel-loader'),
         options: {
           babelrc: false,

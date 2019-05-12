@@ -28,8 +28,13 @@ if (program.build) {
     }
   )
 } else {
-  handleTaskOutput(serve({}), {
-    taskName: 'Serve',
-    keepConsole: program.keepConsole,
-  })
+  handleTaskOutput(
+    serve({
+      entryFilePath: program.args[0],
+    }),
+    {
+      taskName: 'Serve',
+      keepConsole: program.keepConsole,
+    }
+  )
 }

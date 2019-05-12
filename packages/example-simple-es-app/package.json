@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "start": "wparcel index.html",
+    "debug": "node ../wparcel/bin/index.js index.html",
     "build": "wparcel build index.html"
   },
   "license": "MIT",

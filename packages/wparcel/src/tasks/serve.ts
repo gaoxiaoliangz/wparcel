@@ -1,11 +1,17 @@
 import webpack from 'webpack'
 import _ from 'lodash'
 import Rx from 'rxjs/Rx'
+import merge from 'webpack-merge'
 import WebpackDevServer from 'webpack-dev-server'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import openBrowser from 'react-dev-utils/openBrowser'
-import { print, resolveProject, getFirstExistingFile } from '../utils'
+import { print, resolvePathInProject, getFirstExistingFile } from '../utils'
 import getLocalIP from '../utils/getLocalIP'
-import { resolveWebpackConfig, toErrorOutputString } from '../helpers/helpers'
+import {
+  resolveWebpackConfig,
+  toErrorOutputString,
+  // resolvePackagePath,
+} from '../helpers/helpers'
 import devServerConfig from '../webpackDevServer.config'
 import { TASK_STATUS } from '../constants'
 
@@ -24,11 +30,12 @@ interface ServeConfig {
   port?: number
   configFilePath?: string
   openBrowser?: boolean
+  entryFilePath: string
 }
 
 const defaultConfig = {
   port: 4006,
-  shouldOpenBrowser: true,
+  shouldOpenBrowser: false,
 }
 
 const serve = (config: ServeConfig) => {
@@ -36,7 +43,8 @@ const serve = (config: ServeConfig) => {
     ...defaultConfig,
     ...config,
   }
-  const { port, configFilePath, shouldOpenBrowser } = finalConfig
+  const { port, configFilePath, shouldOpenBrowser, entryFilePath } = finalConfig
+
   // const { Observable, taskStatus, argv } = context
   // const options = {
   //   openBrowser: !argv.nob,
@@ -71,7 +79,23 @@ const serve = (config: ServeConfig) => {
   //       })
   //     : webpackConfig0
 
-  const webpackConfig = resolveWebpackConfig(configFilePath)
+  let webpackConfig = resolveWebpackConfig(configFilePath)
+
+  if (entryFilePath.endsWith('.html')) {
+    console.log('handle html')
+    const entryHtmlPathAbs = resolvePathInProject(entryFilePath)
+    webpackConfig = merge({}, webpackConfig, {
+      plugins: [
+        new HtmlWebpackPlugin({
+          title: 'Custom template',
+          // Load a custom template (lodash by default)
+          template: entryHtmlPathAbs,
+        }),
+      ],
+    })
+  } else {
+    console.log('handle js')
+  }
 
   const startDevServer = ({
     onChangeStart,
@@ -106,9 +130,10 @@ Network:   ${networkAddr}
       }
     })
 
-    // if (!devServerConfig.publicPath && webpackConfig.output.publicPath) {
-    //   devServerConfig.publicPath = webpackConfig.output.publicPath
-    // }
+    if (!devServerConfig.publicPath && webpackConfig.output.publicPath) {
+      console.log('here', webpackConfig.output.publicPath)
+      devServerConfig.publicPath = webpackConfig.output.publicPath
+    }
 
     const devServerInstance = new WebpackDevServer(
       compiler,

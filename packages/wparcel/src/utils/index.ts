@@ -18,7 +18,7 @@ export const capFirstLetter = word => {
 
 export const isDepInstalled = dep => {
   try {
-    require.resolve(resolveProject(path.join('node_modules', dep)))
+    require.resolve(resolvePathInProject(path.join('node_modules', dep)))
     return true
   } catch (error) {
     return false
@@ -27,14 +27,14 @@ export const isDepInstalled = dep => {
 
 export const fileExists = relPath => {
   try {
-    require.resolve(resolveProject(relPath))
+    require.resolve(resolvePathInProject(relPath))
     return true
   } catch (error) {
     return false
   }
 }
 
-export function resolveProject(relativePath) {
+export function resolvePathInProject(relativePath) {
   // Make sure any symlinks in the project folder are resolved:
   // https://github.com/facebookincubator/create-react-app/issues/637
   const projectDir = fs.realpathSync(process.cwd())
