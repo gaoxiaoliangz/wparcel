@@ -3,6 +3,7 @@
 
 const program = require('commander')
 const build = require('../lib/tasks/build').default
+const serve = require('../lib/tasks/serve').default
 const handleTaskOutput = require('../lib/handleTaskOutput').default
 
 program
@@ -26,4 +27,9 @@ if (program.build) {
       keepConsole: program.keepConsole,
     }
   )
+} else {
+  handleTaskOutput(serve({}), {
+    taskName: 'Serve',
+    keepConsole: program.keepConsole,
+  })
 }

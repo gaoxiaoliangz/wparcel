@@ -1,14 +1,14 @@
 import checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
 import { Configuration } from 'webpack'
 import merge from 'webpack-merge'
-import baseWebpackConfig from '../webpack.config.base'
+import baseWebpackConfig from '../webpack.config'
 import { print, resolveProject, getFirstExistingFile } from '../utils'
 
 export const resolveWebpackConfig = (configFilePath?: string) => {
   // 用户指定的 webpack 配置文件
   let webpackConfig = {}
   if (configFilePath) {
-    if (!checkRequiredFiles(configFilePath)) {
+    if (!checkRequiredFiles([configFilePath])) {
       process.exit(1)
     }
     webpackConfig = require(configFilePath)
@@ -19,4 +19,16 @@ export const resolveWebpackConfig = (configFilePath?: string) => {
     webpackConfig
   )
   return finalWebpackConfig
+}
+
+export const toOutputString = (stats, config?) => {
+  return stats.toString(
+    config || {
+      colors: true,
+    }
+  )
+}
+
+export const toErrorOutputString = stats => {
+  return stats.toString('errors-only')
 }

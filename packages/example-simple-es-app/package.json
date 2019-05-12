@@ -2,7 +2,7 @@
   "name": "example-es-app",
   "version": "0.1.0",
   "scripts": {
-    "start": "serve",
+    "start": "wparcel index.html",
     "build": "wparcel build index.html"
   },
   "license": "MIT",

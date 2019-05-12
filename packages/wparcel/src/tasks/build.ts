@@ -3,25 +3,17 @@ import Rx from 'rxjs/Rx'
 import merge from 'webpack-merge'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import { TASK_STATUS } from '../constants'
-import { resolveWebpackConfig } from '../helpers/helpers'
+import {
+  resolveWebpackConfig,
+  toErrorOutputString,
+  toOutputString,
+} from '../helpers/helpers'
 
 const CONFIG_FALLBACK_CHAIN = [
   'webpack.config.prod.js',
   'webpack.config.js',
   'webpack.config.dev.js',
 ]
-
-const toOutputString = (stats, config?) => {
-  return stats.toString(
-    config || {
-      colors: true,
-    }
-  )
-}
-
-const toErrorOutputString = stats => {
-  return stats.toString('errors-only')
-}
 
 interface BuildConfig {
   analysis: boolean

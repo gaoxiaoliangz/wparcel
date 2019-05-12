@@ -1,6 +1,6 @@
-const path = require('path')
-// const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+import path from 'path'
+// import VueLoaderPlugin from 'vue-loader/lib/plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 const resolvePackagePath = relPath => path.resolve(process.cwd(), relPath)
 
