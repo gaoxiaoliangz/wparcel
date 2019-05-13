@@ -1,6 +1,6 @@
-import * as _ from 'lodash'
-import * as path from 'path'
-import * as fs from 'fs'
+import _ from 'lodash'
+import path from 'path'
+import fs from 'fs'
 import print from './print'
 
 export { print }
@@ -64,17 +64,17 @@ export const copyFileWithExistenceCheck = (src, target) => {
   return false
 }
 
-export function endsWith(str1, str2) {
-  if (str1.length < str2.length) {
-    return false
-  }
-  return str1.indexOf(str2) === str1.length - str2.length
-}
-
 export const getFirstExistingFile = chain => {
   for (const file of chain) {
     if (fileExists(file)) {
       return file
     }
   }
+}
+
+export const getFilename = (absFilePath: string) => {
+  if (absFilePath.endsWith('.html')) {
+    return _.last(absFilePath.split('/'))
+  }
+  throw new Error(`invalid html file path "${absFilePath}"`)
 }
