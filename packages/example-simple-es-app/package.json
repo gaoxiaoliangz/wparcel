@@ -2,14 +2,16 @@
   "name": "example-es-app",
   "version": "0.1.0",
   "scripts": {
-    "start": "wparcel index.html",
+    "start": "wparcel src/index.html",
     "debug": "node ../wparcel/bin/index.js index.html",
+    "prebuild": "rimraf dist",
     "build": "wparcel build index.html"
   },
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "wparcel": "0.7.0",
-    "serve": "^11.0.0"
+    "rimraf": "^2.6.3",
+    "serve": "^11.0.0",
+    "wparcel": "0.7.0"
   }
 }

@@ -3,17 +3,13 @@ import _ from 'lodash'
 import Rx from 'rxjs/Rx'
 import merge from 'webpack-merge'
 import WebpackDevServer from 'webpack-dev-server'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import openBrowser from 'react-dev-utils/openBrowser'
 import { print, resolvePathInProject, getFirstExistingFile } from '../utils'
 import getLocalIP from '../utils/getLocalIP'
-import {
-  resolveWebpackConfig,
-  toErrorOutputString,
-  // resolvePackagePath,
-} from '../helpers/helpers'
+import { toErrorOutputString } from '../helpers/helpers'
 import devServerConfig from '../webpackDevServer.config'
 import { TASK_STATUS } from '../constants'
+import { resolveWebpackConfig } from '../helpers/webpack'
 
 const localIP = getLocalIP()
 
@@ -45,56 +41,19 @@ const serve = (config: ServeConfig) => {
   }
   const { port, configFilePath, shouldOpenBrowser, entryFilePath } = finalConfig
 
-  // const { Observable, taskStatus, argv } = context
-  // const options = {
-  //   openBrowser: !argv.nob,
-  //   port: argv.port || DEFAULT_PORT,
-  //   config: argv.config,
-  //   devServerConfig: argv.devServerConfig || 'webpackDevServer.config.js',
-  // }
-  // const requiredFiles = [options.devServerConfig]
-
-  // if (options.config) {
-  //   requiredFiles.unshift(options.config)
-  // } else {
-  //   const configFile = getFirstExistingFile(CONFIG_FALLBACK_CHAIN)
-  //   requiredFiles.unshift(configFile ? configFile : CONFIG_FALLBACK_CHAIN[0])
-  // }
-  // const requiredFilesFullPath = requiredFiles.map(resolveProject)
-
-  // if (!checkRequiredFiles(requiredFilesFullPath)) {
-  //   process.exit(1)
-  // }
-  // const configs = requiredFilesFullPath.map(require)
-  // const webpackConfig0 = configs[0]
-  // const devServerConfig = configs[1]
-  // const port = options.port
-
-  // const webpackConfig =
-  //   typeof webpackConfig0 === 'function'
-  //     ? webpackConfig0({
-  //         port,
-  //         localIP,
-  //         argv,
-  //       })
-  //     : webpackConfig0
-
-  let webpackConfig = resolveWebpackConfig(configFilePath)
-
+  let webpackConfig
   if (entryFilePath.endsWith('.html')) {
-    console.log('handle html')
     const entryHtmlPathAbs = resolvePathInProject(entryFilePath)
-    webpackConfig = merge({}, webpackConfig, {
-      plugins: [
-        new HtmlWebpackPlugin({
-          title: 'Custom template',
-          // Load a custom template (lodash by default)
-          template: entryHtmlPathAbs,
-        }),
-      ],
+    webpackConfig = resolveWebpackConfig({
+      configFilePath,
+      htmlFilePath: entryHtmlPathAbs,
+      webpackEnv: 'development',
     })
   } else {
-    console.log('handle js')
+    webpackConfig = resolveWebpackConfig({
+      configFilePath,
+      webpackEnv: 'development',
+    })
   }
 
   const startDevServer = ({

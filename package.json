@@ -9,10 +9,9 @@
   },
   "scripts": {
     "es-app": "yarn workspace example-es-app",
-    "watch": "yarn wparcel:build --watch",
-    "build": "yarn wparcel:build",
-    "wparcel:add": "yarn workspace wparcel add",
-    "wparcel:build": "cd packages/wparcel && yarn build",
+    "wparcel": "yarn workspace wparcel",
+    "watch": "yarn wparcel build --watch",
+    "build": "yarn wparcel build",
     "test": "yarn jest"
   },
   "workspaces": [

@@ -1,13 +1,8 @@
 import webpack from 'webpack'
 import Rx from 'rxjs/Rx'
-import merge from 'webpack-merge'
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import { TASK_STATUS } from '../constants'
-import {
-  resolveWebpackConfig,
-  toErrorOutputString,
-  toOutputString,
-} from '../helpers/helpers'
+import { toErrorOutputString, toOutputString } from '../helpers/helpers'
+import { resolveWebpackConfig } from '../helpers/webpack'
 
 const CONFIG_FALLBACK_CHAIN = [
   'webpack.config.prod.js',
@@ -23,36 +18,11 @@ interface BuildConfig {
 
 const build = (config: BuildConfig) => {
   const { analysis, configFilePath, watch } = config
-  let webpackConfig = resolveWebpackConfig(configFilePath)
-
-  // const requiredFiles = []
-  // if (argv.config) {
-  //   requiredFiles.push(argv.config)
-  // } else {
-  //   const configFile = getFirstExistingFile(CONFIG_FALLBACK_CHAIN)
-  //   requiredFiles.push(configFile ? configFile : CONFIG_FALLBACK_CHAIN[0])
-  // }
-  // if (!checkRequiredFiles(requiredFiles)) {
-  //   process.exit(1)
-  // }
-  // const webpackConfigFile = resolveProject(requiredFiles[0])
-  // const webpackConfig0 = require(webpackConfigFile)
-  // const webpackConfig =
-  //   typeof webpackConfig0 === 'function'
-  //     ? webpackConfig0({
-  //         argv,
-  //       })
-  //     : webpackConfig0
-  // let mergedConfig = merge(baseConfig as webpack.Configuration, webpackConfig)
-  if (analysis) {
-    webpackConfig = merge(webpackConfig, {
-      plugins: [
-        new BundleAnalyzerPlugin({
-          analyzerPort: 8022,
-        }),
-      ],
-    })
-  }
+  const webpackConfig = resolveWebpackConfig({
+    configFilePath,
+    analysis,
+    webpackEnv: 'production',
+  })
   const compiler = webpack(webpackConfig)
 
   if (watch) {
