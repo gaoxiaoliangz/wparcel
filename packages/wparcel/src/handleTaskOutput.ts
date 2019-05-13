@@ -114,10 +114,10 @@ const handleTaskOutput = async (taskOutput, config: OutputConfig) => {
                 span = Timer.calcSpan(taskTimer.startTime, watchTimer.endTime)
               }
 
+              taskPrint(`change completed in ${span}s`)
               if (payload) {
                 print.log(payload)
               }
-              taskPrint(`change completed in ${span}s`)
               break
 
             default:
