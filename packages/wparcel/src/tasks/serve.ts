@@ -130,8 +130,10 @@ Network:   ${networkAddr}
       }
     })
 
+    // publicPath 明明是有的，而且起作用，这里的 type 应该是有问题的
+    // @ts-ignore
     if (!devServerConfig.publicPath && webpackConfig.output.publicPath) {
-      console.log('here', webpackConfig.output.publicPath)
+      // @ts-ignore
       devServerConfig.publicPath = webpackConfig.output.publicPath
     }
 

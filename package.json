@@ -8,6 +8,7 @@
     "lerna": "^3.13.4"
   },
   "scripts": {
+    "es-app": "yarn workspace example-es-app",
     "watch": "yarn wparcel:build --watch",
     "build": "yarn wparcel:build",
     "wparcel:add": "yarn workspace wparcel add",
