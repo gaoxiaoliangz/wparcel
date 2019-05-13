@@ -1,5 +1,7 @@
+import { resolvePathInProject } from './utils'
+
 /**
- * Webpack dev server config used by Jellyweb
+ * Webpack dev server config used by wparcel
  * docs can be found here https://webpack.js.org/configuration/dev-server/
  */
 export default {
@@ -18,6 +20,7 @@ export default {
 
   // https://github.com/webpack/webpack-dev-server/releases/tag/v2.4.3
   disableHostCheck: true,
+  contentBase: resolvePathInProject('./public'),
 
   // Some common config
   // HMR

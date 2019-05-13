@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "scripts": {
     "start": "wparcel src/index.html",
-    "debug": "node ../wparcel/bin/index.js index.html",
+    "start:d": "node -r source-map-support/register ../wparcel/bin/index.js src/index.html",
     "prebuild": "rimraf dist",
-    "build": "wparcel build src/index.html"
+    "build": "wparcel build src/index.html",
+    "build:d": "node -r source-map-support/register ../wparcel/bin/index.js build src/index.html"
   },
   "license": "MIT",
   "private": true,

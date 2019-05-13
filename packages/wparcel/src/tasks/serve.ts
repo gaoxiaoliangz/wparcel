@@ -1,10 +1,7 @@
-import webpack from 'webpack'
 import _ from 'lodash'
 import Rx from 'rxjs/Rx'
-import merge from 'webpack-merge'
 import WebpackDevServer from 'webpack-dev-server'
 import openBrowser from 'react-dev-utils/openBrowser'
-import { print, resolvePathInProject, getFirstExistingFile } from '../utils'
 import getLocalIP from '../utils/getLocalIP'
 import { toErrorOutputString } from '../helpers/helpers'
 import devServerConfig from '../webpackDevServer.config'
@@ -13,14 +10,14 @@ import { initCompiler } from '../helpers/webpack'
 
 const localIP = getLocalIP()
 
-const CONFIG_FALLBACK_CHAIN = [
-  'jellyweb.config.dev.js',
-  'jellyweb.config.js',
-  'jellyweb.config.prod.js',
-  'webpack.config.dev.js',
-  'webpack.config.js',
-  'webpack.config.prod.js',
-]
+// const CONFIG_FALLBACK_CHAIN = [
+//   'jellyweb.config.dev.js',
+//   'jellyweb.config.js',
+//   'jellyweb.config.prod.js',
+//   'webpack.config.dev.js',
+//   'webpack.config.js',
+//   'webpack.config.prod.js',
+// ]
 
 interface ServeConfig {
   port?: number
@@ -47,7 +44,7 @@ const serve = (config: ServeConfig) => {
     onChangeError,
   }) => {
     let isFirstCompile = true
-    const compiler = initCompiler({
+    const { compiler } = initCompiler({
       webpackEnv: 'development',
       configFilePath,
       entryFilePath,
@@ -77,13 +74,6 @@ Network:   ${networkAddr}
         }
       }
     })
-
-    // publicPath 明明是有的，而且起作用，这里的 type 应该是有问题的
-    // @ts-ignore
-    if (!devServerConfig.publicPath && webpackConfig.output.publicPath) {
-      // @ts-ignore
-      devServerConfig.publicPath = webpackConfig.output.publicPath
-    }
 
     const devServerInstance = new WebpackDevServer(
       compiler,

@@ -79,7 +79,11 @@ const handleTaskOutput = async (taskOutput, config: OutputConfig) => {
   }
 
   const handleError = error => {
-    print.error(error)
+    if (error && error.stack) {
+      print.error(error.stack)
+    } else {
+      print.error(error)
+    }
     process.exit(1)
   }
 

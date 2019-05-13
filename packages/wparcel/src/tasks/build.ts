@@ -1,14 +1,13 @@
-import webpack from 'webpack'
 import Rx from 'rxjs/Rx'
 import { TASK_STATUS } from '../constants'
 import { toErrorOutputString, toOutputString } from '../helpers/helpers'
 import { initCompiler } from '../helpers/webpack'
 
-const CONFIG_FALLBACK_CHAIN = [
-  'webpack.config.prod.js',
-  'webpack.config.js',
-  'webpack.config.dev.js',
-]
+// const CONFIG_FALLBACK_CHAIN = [
+//   'webpack.config.prod.js',
+//   'webpack.config.js',
+//   'webpack.config.dev.js',
+// ]
 
 interface BuildConfig {
   analysis: boolean
@@ -19,7 +18,7 @@ interface BuildConfig {
 
 const build = (config: BuildConfig) => {
   const { analysis, configFilePath, watch, entryFilePath } = config
-  const compiler = initCompiler({
+  const { compiler } = initCompiler({
     configFilePath,
     analysis,
     webpackEnv: 'production',

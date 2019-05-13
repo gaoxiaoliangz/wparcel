@@ -15,7 +15,7 @@ interface ResolveOptions extends GenerateWebpackConfigOptions {
 
 export const initCompiler = (options: ResolveOptions) => {
   const { configFilePath, entryFilePath, ...rest } = options
-  let htmlFilePath
+  let htmlFilePath: string
   if (entryFilePath.endsWith('.html')) {
     htmlFilePath = resolvePathInProject(entryFilePath)
   }
@@ -36,5 +36,8 @@ export const initCompiler = (options: ResolveOptions) => {
     }) as Configuration,
     webpackConfig
   )
-  return webpack(finalWebpackConfig)
+  return {
+    compiler: webpack(finalWebpackConfig),
+    webpackConfig: finalWebpackConfig,
+  }
 }
