@@ -18,7 +18,7 @@ const defaultOptions: Partial<GenerateWebpackConfigOptions> = {
   htmlFilePath: path.resolve(__dirname, '../static/index.html'),
   analysis: false,
   servedPath: '/',
-  buildPath: 'dist',
+  buildPath: 'build',
 }
 
 const getFilename = (absFilePath: string) => {

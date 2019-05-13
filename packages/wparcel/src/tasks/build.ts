@@ -2,7 +2,7 @@ import webpack from 'webpack'
 import Rx from 'rxjs/Rx'
 import { TASK_STATUS } from '../constants'
 import { toErrorOutputString, toOutputString } from '../helpers/helpers'
-import { resolveWebpackConfig } from '../helpers/webpack'
+import { initCompiler } from '../helpers/webpack'
 
 const CONFIG_FALLBACK_CHAIN = [
   'webpack.config.prod.js',
@@ -14,16 +14,17 @@ interface BuildConfig {
   analysis: boolean
   configFilePath: string
   watch: boolean
+  entryFilePath: string
 }
 
 const build = (config: BuildConfig) => {
-  const { analysis, configFilePath, watch } = config
-  const webpackConfig = resolveWebpackConfig({
+  const { analysis, configFilePath, watch, entryFilePath } = config
+  const compiler = initCompiler({
     configFilePath,
     analysis,
     webpackEnv: 'production',
+    entryFilePath,
   })
-  const compiler = webpack(webpackConfig)
 
   if (watch) {
     return Rx.Observable.create(observer => {

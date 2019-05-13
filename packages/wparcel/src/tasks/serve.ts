@@ -9,7 +9,7 @@ import getLocalIP from '../utils/getLocalIP'
 import { toErrorOutputString } from '../helpers/helpers'
 import devServerConfig from '../webpackDevServer.config'
 import { TASK_STATUS } from '../constants'
-import { resolveWebpackConfig } from '../helpers/webpack'
+import { initCompiler } from '../helpers/webpack'
 
 const localIP = getLocalIP()
 
@@ -41,28 +41,17 @@ const serve = (config: ServeConfig) => {
   }
   const { port, configFilePath, shouldOpenBrowser, entryFilePath } = finalConfig
 
-  let webpackConfig
-  if (entryFilePath.endsWith('.html')) {
-    const entryHtmlPathAbs = resolvePathInProject(entryFilePath)
-    webpackConfig = resolveWebpackConfig({
-      configFilePath,
-      htmlFilePath: entryHtmlPathAbs,
-      webpackEnv: 'development',
-    })
-  } else {
-    webpackConfig = resolveWebpackConfig({
-      configFilePath,
-      webpackEnv: 'development',
-    })
-  }
-
   const startDevServer = ({
     onChangeStart,
     onChangeComplete,
     onChangeError,
   }) => {
     let isFirstCompile = true
-    const compiler = webpack(webpackConfig)
+    const compiler = initCompiler({
+      webpackEnv: 'development',
+      configFilePath,
+      entryFilePath,
+    })
 
     compiler.hooks.done.tap('invalid', () => {
       onChangeStart()

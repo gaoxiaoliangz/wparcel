@@ -5,7 +5,7 @@
     "start": "wparcel src/index.html",
     "debug": "node ../wparcel/bin/index.js index.html",
     "prebuild": "rimraf dist",
-    "build": "wparcel build index.html"
+    "build": "wparcel build src/index.html"
   },
   "license": "MIT",
   "private": true,

@@ -21,6 +21,7 @@ if (program.build) {
       watch: program.watch,
       analysis: program.analysis,
       configFilePath: program.configFilePath,
+      entryFilePath: program.args[0],
     }),
     {
       taskName: 'Build',
@@ -30,6 +31,7 @@ if (program.build) {
 } else {
   handleTaskOutput(
     serve({
+      configFilePath: program.configFilePath,
       entryFilePath: program.args[0],
     }),
     {
