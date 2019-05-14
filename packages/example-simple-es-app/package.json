@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "scripts": {
     "start": "wparcel index.html",
+    "start:p": "serve build",
     "start:d": "node -r source-map-support/register ../wparcel/bin/index.js index.html",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf build",
     "build": "wparcel build index.html",
     "build:d": "node -r source-map-support/register ../wparcel/bin/index.js build index.html"
   },

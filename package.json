@@ -5,7 +5,11 @@
   "author": "gaoxiaoliangz <gaoxiaoliangz@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "lerna": "^3.13.4"
+    "@types/jest": "^24.0.12",
+    "lerna": "^3.13.4",
+    "jest": "^24.8.0",
+    "source-map-support": "^0.5.12",
+    "ts-jest": "^24.0.2"
   },
   "scripts": {
     "es-app": "yarn workspace example-es-app",
@@ -17,11 +21,5 @@
   "workspaces": [
     "packages/*"
   ],
-  "private": true,
-  "dependencies": {
-    "@types/jest": "^24.0.12",
-    "jest": "^24.8.0",
-    "source-map-support": "^0.5.12",
-    "ts-jest": "^24.0.2"
-  }
+  "private": true
 }
