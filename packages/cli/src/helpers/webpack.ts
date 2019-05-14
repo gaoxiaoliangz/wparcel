@@ -24,9 +24,11 @@ type ResolveOptions = Modify<
 >
 
 const prepareCacheFolder = () => {
-  const cacheFolderPath = paths.cacheAbs
-  if (!fs.existsSync(cacheFolderPath)) {
-    fs.mkdirSync(cacheFolderPath)
+  const destPath = paths.appCacheStaticAbs
+  if (!fs.existsSync(destPath)) {
+    fs.mkdirSync(destPath, {
+      recursive: true,
+    })
   }
 }
 
@@ -40,7 +42,7 @@ const saveFileToCacheFolder = (
   filename: string,
   fileContent: string
 ): string => {
-  const cacheFolderPath = paths.cacheAbs
+  const cacheFolderPath = paths.appCacheAbs
   const filePath = path.resolve(cacheFolderPath, filename)
   fs.writeFileSync(filePath, fileContent, {
     encoding: 'utf8',
@@ -51,10 +53,11 @@ const saveFileToCacheFolder = (
 /**
  * @param filePath absolute file path
  */
-const copyFileToCacheFolder = (filePath: string) => {
-  const cacheFolderPath = paths.cacheAbs
+// TODO: add file hash
+const copyFileToCacheFolder = (filePath: string, toStatic = false) => {
+  const folderPath = toStatic ? paths.appCacheStaticAbs : paths.appCacheAbs
   const filename = getFilename(filePath)
-  const destFilePath = path.resolve(cacheFolderPath, filename)
+  const destFilePath = path.resolve(folderPath, filename)
   fs.copyFileSync(filePath, destFilePath)
   return destFilePath
 }
@@ -86,8 +89,10 @@ const prepareHtmlFile = (filePath: string = paths.defaultHtmlFileAbs) => {
       const src = node.getAttribute(attrName)
       if (src) {
         const filePath = resolveFilePathInHtml(src)
-        // TODO: fix new src
-        const newSrc = copyFileToCacheFolder(filePath)
+        const newFilePath = copyFileToCacheFolder(filePath, true)
+        const newFilename = getFilename(newFilePath)
+        // TODO: base path
+        const newSrc = `/static/${newFilename}`
         node.setAttribute(attrName, newSrc)
       }
     }
