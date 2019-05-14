@@ -3,9 +3,9 @@ import { resolvePathInProject } from '../utils'
 
 // 绝对路径的地址以 abs 结尾
 export default {
-  defaultHtmlFileAbs: path.resolve(__dirname, '../../static/index.html'),
-  appCacheAbs: resolvePathInProject('./.cache'),
-  // appCacheStaticAbs: resolvePathInProject('./.cache/static'),
   assetFolder: 'static',
+  templatesAbs: path.resolve(__dirname, '../../templates'),
+  // 暂时没什么用，先留着
+  // appCacheAbs: resolvePathInProject('./.cache'),
   appPublicAbs: resolvePathInProject('./public'),
 }

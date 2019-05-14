@@ -34,11 +34,11 @@ export const fileExists = relPath => {
   }
 }
 
-export function resolvePathInProject(relativePath) {
+export function resolvePathInProject(...relativePaths: string[]) {
   // Make sure any symlinks in the project folder are resolved:
   // https://github.com/facebookincubator/create-react-app/issues/637
   const projectDir = fs.realpathSync(process.cwd())
-  return path.resolve(projectDir, relativePath)
+  return path.resolve(projectDir, ...relativePaths)
 }
 
 // merge objects with array without mutation

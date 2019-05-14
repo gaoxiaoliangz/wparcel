@@ -3,28 +3,47 @@ import { JSDOM } from 'jsdom'
 import fs from 'fs'
 import { getFilename, resolvePathInProject } from '../utils'
 import paths from '../config/paths'
+import { copyFileToAssetFolder } from './asset'
+
+interface PrepareHtmlFileOptions {
+  htmlPathAbs: string
+  outDir: string
+  isDevEnv: boolean
+}
 
 /**
  * @param htmlFilePath absolute file path
  */
 // TODO: 支持 watch html 文件变化
-export const prepareHtmlFile = (
-  filePath: string = paths.defaultHtmlFileAbs,
-  outDir: string
-) => {
-  const filename = getFilename(filePath)
-  const html = fs.readFileSync(filePath, {
+export const prepareHtmlFile = (options: PrepareHtmlFileOptions) => {
+  const { htmlPathAbs, outDir } = options
+  const filename = getFilename(htmlPathAbs)
+  const html = fs.readFileSync(htmlPathAbs, {
     encoding: 'utf8',
   })
   const dom = new JSDOM(html)
   let entry = []
-  // 如果没有 filePath 说明用的是默认 template，而默认 template 里面没有 script
-  if (filePath) {
-    prepareCacheFolder()
 
+  /**
+   *
+   * @param filename
+   * @param fileContent
+   * @returns absolute cache file path
+   */
+  const saveFileToOutDir = (filename: string, fileContent: string): string => {
+    const destDir = resolvePathInProject(outDir)
+    const filePath = path.resolve(destDir, filename)
+    fs.writeFileSync(filePath, fileContent, {
+      encoding: 'utf8',
+    })
+    return filePath
+  }
+
+  // 如果没有 filePath 说明用的是默认 template，而默认 template 里面没有 script
+  if (htmlPathAbs) {
     const resolveFilePathInHtml = (relPath: string) => {
       const htmlFolderPath = path.resolve(
-        path.relative(resolvePathInProject('.'), filePath),
+        path.relative(resolvePathInProject('.'), htmlPathAbs),
         '../'
       )
       return resolvePathInProject(path.resolve(htmlFolderPath, relPath))
@@ -34,10 +53,10 @@ export const prepareHtmlFile = (
       const src = node.getAttribute(attrName)
       if (src) {
         const filePath = resolveFilePathInHtml(src)
-        const newFilePath = copyFileToCacheFolder(filePath, true)
+        const newFilePath = copyFileToAssetFolder(filePath, outDir)
         const newFilename = getFilename(newFilePath)
         // TODO: base path
-        const newSrc = `/static/${newFilename}`
+        const newSrc = `/${paths.assetFolder}/${newFilename}`
         node.setAttribute(attrName, newSrc)
       }
     }
@@ -57,7 +76,7 @@ export const prepareHtmlFile = (
     })
   }
   const html2 = dom.serialize()
-  const generatedHtmlAbsPath = saveFileToCacheFolder(filename, html2)
+  const generatedHtmlAbsPath = saveFileToOutDir(filename, html2)
 
   return {
     htmlPath: generatedHtmlAbsPath,

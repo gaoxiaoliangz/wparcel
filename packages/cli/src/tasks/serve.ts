@@ -6,13 +6,15 @@ import getIP from '../utils/getIP'
 import { toErrorOutputString } from '../helpers/helpers'
 import devServerConfig from '../webpackDevServer.config'
 import { TASK_STATUS } from '../constants'
-import { initCompiler } from '../helpers/webpack'
+import { initCompiler } from '../compiler/compiler'
+import { resolvePathInProject } from '../utils'
 
 interface ServeConfig {
   port?: number
   configFilePath?: string
   openBrowser?: boolean
   entryFilePath: string
+  outDir
 }
 
 const defaultConfig = {
@@ -33,7 +35,7 @@ const serve = (config: ServeConfig) => {
     onChangeError,
   }) => {
     let isFirstCompile = true
-    const { compiler } = initCompiler({
+    const { compiler, outDir } = initCompiler({
       webpackEnv: 'development',
       configFilePath,
       entryFilePath,
@@ -64,10 +66,9 @@ Network:   ${networkAddr}
       }
     })
 
-    const devServerInstance = new WebpackDevServer(
-      compiler,
-      devServerConfig as WebpackDevServer.Configuration
-    )
+    const devServerInstance = new WebpackDevServer(compiler, devServerConfig({
+      contentBase: [resolvePathInProject(outDir)],
+    }) as WebpackDevServer.Configuration)
     // Launch WebpackDevServer
     devServerInstance.listen(port, (err /* , result */) => {
       if (err) {

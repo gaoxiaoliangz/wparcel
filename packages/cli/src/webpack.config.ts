@@ -5,24 +5,24 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { resolvePathInProject, getFilename } from './utils'
+import paths from './config/paths'
 
 export interface GenerateWebpackConfigOptions {
   webpackEnv: WebpackEnv
-  htmlFilePath?: string
+  htmlFilePathAbs?: string
   analysis?: boolean
   servedPath?: string
-  outDir?: string
+  outDir: string
   entry: any
 }
 
 const defaultOptions: Partial<GenerateWebpackConfigOptions> = {
   analysis: false,
   servedPath: '/',
-  outDir: 'build',
 }
 
 export default (options: GenerateWebpackConfigOptions) => {
-  const { entry, webpackEnv, htmlFilePath, analysis, servedPath, outDir } = {
+  const { entry, webpackEnv, htmlFilePathAbs, analysis, servedPath, outDir } = {
     ...defaultOptions,
     ...options,
   }
@@ -41,11 +41,11 @@ export default (options: GenerateWebpackConfigOptions) => {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].js'
-        : isEnvDevelopment && 'static/js/bundle.js',
+        ? `${paths.assetFolder}/js/[name].[contenthash:8].js`
+        : isEnvDevelopment && `${paths.assetFolder}/js/bundle.js`,
       chunkFilename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].chunk.js'
-        : isEnvDevelopment && 'static/js/[name].chunk.js',
+        ? `${paths.assetFolder}/js/[name].[contenthash:8].chunk.js`
+        : isEnvDevelopment && `${paths.assetFolder}/js/[name].chunk.js`,
       publicPath,
     },
     module: {
@@ -81,7 +81,7 @@ export default (options: GenerateWebpackConfigOptions) => {
           loader: require.resolve('url-loader'),
           query: {
             limit: 1000 * 1024, // 1mb 是文件大小上限，超过了会被抽出
-            name: path.posix.join('static', '[name].[hash:7].[ext]'),
+            name: path.posix.join(paths.assetFolder, '[name].[hash:7].[ext]'),
           },
         },
       ],
@@ -96,13 +96,12 @@ export default (options: GenerateWebpackConfigOptions) => {
     plugins: [
       // new VueLoaderPlugin(),
       new MiniCssExtractPlugin(),
-      ...(htmlFilePath && [
+      ...(htmlFilePathAbs && [
         new HtmlWebpackPlugin({
           // Load a custom template (lodash by default)
-          template: htmlFilePath,
-          filename: getFilename(htmlFilePath),
+          template: htmlFilePathAbs,
+          filename: getFilename(htmlFilePathAbs),
         }),
-        // new HtmlWebpackInjector(),
       ]),
       ...(analysis && [
         new BundleAnalyzerPlugin({

@@ -1,7 +1,7 @@
 import Rx from 'rxjs/Rx'
 import { TASK_STATUS } from '../constants'
 import { toErrorOutputString, toOutputString } from '../helpers/helpers'
-import { initCompiler } from '../helpers/webpack'
+import { initCompiler } from '../compiler/compiler'
 
 interface BuildConfig {
   analysis: boolean
