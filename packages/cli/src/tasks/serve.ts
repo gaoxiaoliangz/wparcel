@@ -14,7 +14,6 @@ interface ServeConfig {
   configFilePath?: string
   openBrowser?: boolean
   entryFilePath: string
-  outDir
 }
 
 const defaultConfig = {
