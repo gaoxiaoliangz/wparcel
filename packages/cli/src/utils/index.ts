@@ -73,8 +73,5 @@ export const getFirstExistingFile = chain => {
 }
 
 export const getFilename = (absFilePath: string) => {
-  if (absFilePath.endsWith('.html')) {
-    return _.last(absFilePath.split('/'))
-  }
-  throw new Error(`invalid html file path "${absFilePath}"`)
+  return path.basename(absFilePath)
 }

@@ -6,9 +6,11 @@
   "bin": {
     "wparcel": "bin/index.js"
   },
-  "directories": {
-    "lib": "lib"
-  },
+  "files": [
+    "lib",
+    "static",
+    "bin"
+  ],
   "scripts": {
     "build": "yarn tsc",
     "start": "node bin/index.js",

@@ -98,12 +98,8 @@ export default (options: GenerateWebpackConfigOptions) => {
       new MiniCssExtractPlugin(),
       ...(htmlFilePath && [
         new HtmlWebpackPlugin({
-          // title: 'Custom template',
           // Load a custom template (lodash by default)
           template: htmlFilePath,
-          // chunks: 'all',
-          // chunks: ['index'],
-          // filename: 'test/index.html',
           filename: getFilename(htmlFilePath),
         }),
         // new HtmlWebpackInjector(),

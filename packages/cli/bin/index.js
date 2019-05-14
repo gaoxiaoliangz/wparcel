@@ -5,13 +5,15 @@ const program = require('commander')
 const build = require('../lib/tasks/build').default
 const serve = require('../lib/tasks/serve').default
 const handleTaskOutput = require('../lib/handleTaskOutput').default
+// @ts-ignore
+const pkg = require('../package.json')
 
 program
-  .version('0.1.0')
-  .option('build', 'bundle js code')
-  .option('-w, --watch', 'enable watch mode')
-  .option('-c, --config <config>', 'config file path')
-  .option('-a, --analysis', 'show webpack-bundle-analyzer')
+  .version(pkg.version)
+  .option('build', 'bundle app')
+  .option('-w, --watch', 'enable watch mode for build')
+  .option('-c, --config <config>', 'webpack config file path')
+  .option('-a, --analysis', 'show bundle analysis')
   .option('-k, --keep-console', 'keep console output')
   .parse(process.argv)
 
