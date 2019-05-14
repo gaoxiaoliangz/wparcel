@@ -5,6 +5,7 @@ import { resolvePathInProject } from '../utils'
 export default {
   defaultHtmlFileAbs: path.resolve(__dirname, '../../static/index.html'),
   appCacheAbs: resolvePathInProject('./.cache'),
-  appCacheStaticAbs: resolvePathInProject('./.cache/static'),
+  // appCacheStaticAbs: resolvePathInProject('./.cache/static'),
+  assetFolder: 'static',
   appPublicAbs: resolvePathInProject('./public'),
 }

@@ -7,22 +7,22 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { resolvePathInProject, getFilename } from './utils'
 
 export interface GenerateWebpackConfigOptions {
-  webpackEnv: 'development' | 'production'
+  webpackEnv: WebpackEnv
   htmlFilePath?: string
   analysis?: boolean
   servedPath?: string
-  buildPath?: string
+  outDir?: string
   entry: any
 }
 
 const defaultOptions: Partial<GenerateWebpackConfigOptions> = {
   analysis: false,
   servedPath: '/',
-  buildPath: 'build',
+  outDir: 'build',
 }
 
 export default (options: GenerateWebpackConfigOptions) => {
-  const { entry, webpackEnv, htmlFilePath, analysis, servedPath, buildPath } = {
+  const { entry, webpackEnv, htmlFilePath, analysis, servedPath, outDir } = {
     ...defaultOptions,
     ...options,
   }
@@ -35,7 +35,7 @@ export default (options: GenerateWebpackConfigOptions) => {
     entry,
     output: {
       // The build folder.
-      path: isEnvProduction ? resolvePathInProject(buildPath) : undefined,
+      path: isEnvProduction ? resolvePathInProject(outDir) : undefined,
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
