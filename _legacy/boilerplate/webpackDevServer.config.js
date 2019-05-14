@@ -8,15 +8,12 @@ module.exports = {
   quiet: true,
   watchOptions: {
     ignored: /node_modules/,
-    aggregateTimeout: 500
+    aggregateTimeout: 500,
   },
-
   // https://github.com/webpack/webpack-dev-server/releases/tag/v2.4.3
   disableHostCheck: true,
-
-  // Some common config
   // HMR
-  // hot: true,
+  hot: true,
 
   // Proxy
   // proxy: {

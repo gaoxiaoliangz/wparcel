@@ -3,12 +3,6 @@ import { TASK_STATUS } from '../constants'
 import { toErrorOutputString, toOutputString } from '../helpers/helpers'
 import { initCompiler } from '../helpers/webpack'
 
-// const CONFIG_FALLBACK_CHAIN = [
-//   'webpack.config.prod.js',
-//   'webpack.config.js',
-//   'webpack.config.dev.js',
-// ]
-
 interface BuildConfig {
   analysis: boolean
   configFilePath: string

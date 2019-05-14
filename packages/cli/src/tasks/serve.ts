@@ -2,22 +2,11 @@ import _ from 'lodash'
 import Rx from 'rxjs/Rx'
 import WebpackDevServer from 'webpack-dev-server'
 import openBrowser from 'react-dev-utils/openBrowser'
-import getLocalIP from '../utils/getLocalIP'
+import getIP from '../utils/getIP'
 import { toErrorOutputString } from '../helpers/helpers'
 import devServerConfig from '../webpackDevServer.config'
 import { TASK_STATUS } from '../constants'
 import { initCompiler } from '../helpers/webpack'
-
-const localIP = getLocalIP()
-
-// const CONFIG_FALLBACK_CHAIN = [
-//   'jellyweb.config.dev.js',
-//   'jellyweb.config.js',
-//   'jellyweb.config.prod.js',
-//   'webpack.config.dev.js',
-//   'webpack.config.js',
-//   'webpack.config.prod.js',
-// ]
 
 interface ServeConfig {
   port?: number
@@ -59,8 +48,8 @@ const serve = (config: ServeConfig) => {
         onChangeError(toErrorOutputString(stats))
       } else {
         const serverAddr = `http://localhost:${port}/`
-        const networkAddr =
-          localIP !== 'localhost' ? `http://${localIP}:${port}/` : 'N/A'
+        const ip = getIP()
+        const networkAddr = `http://${ip}:${port}/`
         onChangeComplete(`
 Local:     ${serverAddr}
 Network:   ${networkAddr}
