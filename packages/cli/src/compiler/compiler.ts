@@ -30,6 +30,7 @@ export const initCompiler = (options: ResolveOptions) => {
   }
 
   prepareAssetFolder(outDir)
+  // TODO: copy files from `public` to `outDir`
   // handleEntry 执行了很多 side effects，并不确信这么写会很好
   const { htmlFilePathAbs, entry } = handleEntry(entryFilePath, {
     outDir,
