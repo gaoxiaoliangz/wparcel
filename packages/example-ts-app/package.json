@@ -17,6 +17,7 @@
   "devDependencies": {
     "rimraf": "^2.6.3",
     "serve": "^11.0.0",
+    "typescript": "^3.4.5",
     "wparcel": "0.7.0"
   },
   "private": true
