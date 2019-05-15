@@ -9,6 +9,9 @@ import { TASK_STATUS } from '../constants'
 import { initCompiler } from '../compiler/compiler'
 import { resolvePathInProject } from '../utils'
 
+process.env.BABEL_ENV = 'development'
+process.env.NODE_ENV = 'development'
+
 interface ServeConfig {
   port?: number
   configFilePath?: string
