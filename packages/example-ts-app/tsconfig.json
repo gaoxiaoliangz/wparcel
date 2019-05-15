@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "declaration": true,
+    "allowJs": false,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "src"
+  ]
+}

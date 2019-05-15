@@ -13,6 +13,7 @@
   },
   "scripts": {
     "es-app": "yarn workspace example-es-app",
+    "ts-app": "yarn workspace example-ts-app",
     "r-app": "yarn workspace example-react-app",
     "cli": "yarn workspace wparcel",
     "watch": "yarn cli build --watch",
