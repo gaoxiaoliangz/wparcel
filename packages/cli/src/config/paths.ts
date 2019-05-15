@@ -8,4 +8,6 @@ export default {
   // 暂时没什么用，先留着
   // appCacheAbs: resolvePathInProject('./.cache'),
   appPublicAbs: resolvePathInProject('./public'),
+  appSrcAbs: resolvePathInProject('./src'),
+  appTsConfigAbs: resolvePathInProject('./tsconfig.json'),
 }
