@@ -15,6 +15,8 @@
     "react-dom": "^16.4.1"
   },
   "devDependencies": {
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
     "rimraf": "^2.6.3",
     "serve": "^11.0.0",
     "typescript": "^3.4.5",
