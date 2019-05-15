@@ -1,4 +1,3 @@
-import path from 'path'
 import fs from 'fs'
 import _ from 'lodash'
 // import VueLoaderPlugin from 'vue-loader/lib/plugin'
@@ -8,8 +7,11 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import { resolvePathInProject, getFilename } from './utils'
 import getCacheIdentifier from 'react-dev-utils/getCacheIdentifier'
 import getCSSModuleLocalIdent from 'react-dev-utils/getCSSModuleLocalIdent'
+import ForkTsCheckerWebpackPlugin from 'react-dev-utils/ForkTsCheckerWebpackPlugin'
+import typescriptFormatter from 'react-dev-utils/typescriptFormatter'
 import paths from './config/paths'
 import postcssNormalize from 'postcss-normalize'
+import resolve from 'resolve'
 
 // TODO: 能否获取到环境变量
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false'
@@ -400,18 +402,46 @@ export default (options: GenerateWebpackConfigOptions) => {
     plugins: [
       // new VueLoaderPlugin(),
       new MiniCssExtractPlugin(),
-      ...(htmlFilePathAbs && [
+      htmlFilePathAbs &&
         new HtmlWebpackPlugin({
           // Load a custom template (lodash by default)
           template: htmlFilePathAbs,
           filename: getFilename(htmlFilePathAbs),
         }),
-      ]),
-      ...(analysis && [
+      analysis &&
         new BundleAnalyzerPlugin({
           analyzerPort: 8022,
         }),
-      ]),
+      // TypeScript type checking
+      useTypeScript &&
+        new ForkTsCheckerWebpackPlugin({
+          typescript: resolve.sync('typescript', {
+            basedir: paths.appNodeModules,
+          }),
+          async: isEnvDevelopment,
+          useTypescriptIncrementalApi: true,
+          checkSyntacticErrors: true,
+          // TODO: 不知道有什么用
+          // resolveModuleNameModule: process.versions.pnp
+          //   ? `${__dirname}/pnpTs.js`
+          //   : undefined,
+          // resolveTypeReferenceDirectiveModule: process.versions.pnp
+          //   ? `${__dirname}/pnpTs.js`
+          //   : undefined,
+          tsconfig: paths.appTsConfigAbs,
+          // TODO: 检查这里，有些不需要
+          reportFiles: [
+            '**',
+            '!**/__tests__/**',
+            '!**/?(*.)(spec|test).*',
+            '!**/src/setupProxy.*',
+            '!**/src/setupTests.*',
+          ],
+          watch: paths.appSrcAbs,
+          silent: true,
+          // The formatter is invoked directly in WebpackDevServerUtils during development
+          formatter: isEnvProduction ? typescriptFormatter : undefined,
+        }),
     ].filter(Boolean),
     mode: 'production',
     optimization: {

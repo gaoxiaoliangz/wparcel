@@ -70,6 +70,7 @@
     "postcss-normalize": "^7.0.1",
     "postcss-preset-env": "^6.6.0",
     "react-dev-utils": "^8.0.0",
+    "resolve": "^1.10.1",
     "rxjs": "5.5.6",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
