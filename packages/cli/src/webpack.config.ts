@@ -543,9 +543,10 @@ export default (options: GenerateWebpackConfigOptions) => {
       child_process: 'empty',
     },
     // TODO: since im not using FileSizeReporter link cra, should this be true?
-    performance: {
-      hints: 'warning',
-    },
+    // performance: {
+    //   hints: 'warning',
+    // },
+    performance: false,
   }
   return config
 }
