@@ -16,11 +16,11 @@ import getCSSModuleLocalIdent from 'react-dev-utils/getCSSModuleLocalIdent'
 import ForkTsCheckerWebpackPlugin from 'react-dev-utils/ForkTsCheckerWebpackPlugin'
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter'
 import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin'
-import paths from './config/paths'
+import paths, { folders } from './config/paths'
 import postcssNormalize from 'postcss-normalize'
 import resolve from 'resolve'
 
-// TODO: replace all static with assetFolder var
+const assetsFolder = folders.assets
 
 // TODO: 能否获取到环境变量
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false'
@@ -145,11 +145,11 @@ export default (options: GenerateWebpackConfigOptions) => {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction
-        ? `${paths.assetFolder}/js/[name].[contenthash:8].js`
-        : isEnvDevelopment && `${paths.assetFolder}/js/bundle.js`,
+        ? `${assetsFolder}/js/[name].[contenthash:8].js`
+        : isEnvDevelopment && `${assetsFolder}/js/bundle.js`,
       chunkFilename: isEnvProduction
-        ? `${paths.assetFolder}/js/[name].[contenthash:8].chunk.js`
-        : isEnvDevelopment && `${paths.assetFolder}/js/[name].chunk.js`,
+        ? `${assetsFolder}/js/[name].[contenthash:8].chunk.js`
+        : isEnvDevelopment && `${assetsFolder}/js/[name].chunk.js`,
       publicPath,
     },
     optimization: {
@@ -275,7 +275,7 @@ export default (options: GenerateWebpackConfigOptions) => {
               loader: require.resolve('url-loader'),
               options: {
                 limit: 10000,
-                name: 'static/media/[name].[hash:8].[ext]',
+                name: `${assetsFolder}/media/[name].[hash:8].[ext]`,
               },
             },
             // Process application JS with Babel.
@@ -442,7 +442,7 @@ export default (options: GenerateWebpackConfigOptions) => {
               // by webpacks internal loaders.
               exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
               options: {
-                name: 'static/media/[name].[hash:8].[ext]',
+                name: `${assetsFolder}/media/[name].[hash:8].[ext]`,
               },
             },
             // ** STOP ** Are you adding a new loader?
@@ -481,8 +481,8 @@ export default (options: GenerateWebpackConfigOptions) => {
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
           // both options are optional
-          filename: 'static/css/[name].[contenthash:8].css',
-          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+          filename: `${assetsFolder}/css/[name].[contenthash:8].css`,
+          chunkFilename: `${assetsFolder}/css/[name].[contenthash:8].chunk.css`,
         }),
       // Generate a manifest file which contains a mapping of all asset filenames
       // to their corresponding output file so that tools can pick it up without

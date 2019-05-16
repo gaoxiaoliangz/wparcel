@@ -4,7 +4,7 @@ import { resolvePathInProject } from '../utils'
 // TODO: paths 下的都改为绝对路径
 // 绝对路径的地址以 abs 结尾
 export default {
-  assetFolder: 'static',
+  // assetFolder: 'static',
   templatesAbs: path.resolve(__dirname, '../../templates'),
   // 暂时没什么用，先留着
   // appCacheAbs: resolvePathInProject('./.cache'),
@@ -13,3 +13,9 @@ export default {
   appTsConfigAbs: resolvePathInProject('./tsconfig.json'),
   appNodeModules: resolvePathInProject('node_modules'),
 }
+
+const folders = {
+  assets: 'static',
+}
+
+export { folders }

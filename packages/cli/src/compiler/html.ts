@@ -2,7 +2,7 @@ import path from 'path'
 import { JSDOM } from 'jsdom'
 import fs from 'fs'
 import { getFilename, resolvePathInProject } from '../utils'
-import paths from '../config/paths'
+import paths, { folders } from '../config/paths'
 import { copyFileToAssetFolder } from './asset'
 
 interface PrepareHtmlFileOptions {
@@ -39,7 +39,6 @@ export const prepareHtmlFile = (options: PrepareHtmlFileOptions) => {
     return filePath
   }
 
-  // 如果没有 filePath 说明用的是默认 template，而默认 template 里面没有 script
   if (htmlPathAbs) {
     const resolveFilePathInHtml = (relPath: string) => {
       const htmlFolderPath = path.resolve(
@@ -56,7 +55,7 @@ export const prepareHtmlFile = (options: PrepareHtmlFileOptions) => {
         const newFilePath = copyFileToAssetFolder(filePath, outDir)
         const newFilename = getFilename(newFilePath)
         // TODO: base path
-        const newSrc = `/${paths.assetFolder}/${newFilename}`
+        const newSrc = `/${folders.assets}/${newFilename}`
         node.setAttribute(attrName, newSrc)
       }
     }
