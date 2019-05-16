@@ -1,5 +1,7 @@
 import React from 'react'
 import cat from './cat.gif'
+import './App.scss'
+import Text from './Text'
 
 interface AppProps {
   title: string
@@ -7,9 +9,9 @@ interface AppProps {
 
 const App = ({ title }: AppProps) => {
   return (
-    <div>
+    <div className="app">
       <img src={cat} alt="cat" />
-      <p>{title} works</p>
+      <Text content={`${title} works`} />
     </div>
   )
 }
