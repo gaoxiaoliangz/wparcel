@@ -121,14 +121,16 @@ export default (options: GenerateWebpackConfigOptions) => {
     return loaders
   }
 
-  return {
-    mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
+  const config: webpack.Configuration = {
+    mode: (isEnvProduction
+      ? 'production'
+      : isEnvDevelopment && 'development') as any,
     bail: isEnvProduction,
-    devtool: isEnvProduction
+    devtool: (isEnvProduction
       ? shouldUseSourceMap
         ? 'source-map'
         : false
-      : isEnvDevelopment && 'cheap-module-source-map',
+      : isEnvDevelopment && 'cheap-module-source-map') as any,
     entry: [
       isEnvDevelopment &&
         require.resolve('react-dev-utils/webpackHotDevClient'),
@@ -144,8 +146,6 @@ export default (options: GenerateWebpackConfigOptions) => {
       filename: isEnvProduction
         ? `${paths.assetFolder}/js/[name].[contenthash:8].js`
         : isEnvDevelopment && `${paths.assetFolder}/js/bundle.js`,
-      // TODO: remove this when upgrading to webpack 5
-      futureEmitAssets: true,
       chunkFilename: isEnvProduction
         ? `${paths.assetFolder}/js/[name].[contenthash:8].chunk.js`
         : isEnvDevelopment && `${paths.assetFolder}/js/[name].chunk.js`,
@@ -547,6 +547,9 @@ export default (options: GenerateWebpackConfigOptions) => {
       child_process: 'empty',
     },
     // TODO: since im not using FileSizeReporter link cra, should this be true?
-    performance: true,
+    performance: {
+      hints: 'warning',
+    },
   }
+  return config
 }
