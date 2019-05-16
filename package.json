@@ -1,44 +1,27 @@
 {
-  "name": "jellyweb",
-  "version": "0.6.2",
-  "description": "A webpack based web application bundler that makes you life easier",
-  "main": "lib/index.js",
-  "bin": {
-    "jellyweb": "bin/index.js"
-  },
-  "directories": {
-    "lib": "lib"
+  "name": "wparcel-workspaces",
+  "version": "0.7.0",
+  "repository": "git@github.com:gaoxiaoliangz/wparcel.git",
+  "author": "gaoxiaoliangz <gaoxiaoliangz@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^24.0.12",
+    "lerna": "^3.13.4",
+    "jest": "^24.8.0",
+    "source-map-support": "^0.5.12",
+    "ts-jest": "^24.0.2"
   },
   "scripts": {
-    "test": "jest"
+    "es-app": "yarn workspace example-es-app",
+    "ts-app": "yarn workspace example-ts-app",
+    "r-app": "yarn workspace example-react-app",
+    "cli": "yarn workspace wparcel",
+    "watch": "yarn cli build --watch",
+    "build": "yarn cli build",
+    "test": "yarn jest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gaoxiaoliangz/jellyweb.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gaoxiaoliangz/jellyweb/issues"
-  },
-  "homepage": "https://github.com/gaoxiaoliangz/jellyweb#readme",
-  "dependencies": {
-    "chalk": "^2.3.0",
-    "colors": "^1.1.2",
-    "eslint": "^4.16.0",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "lodash": "^4.17.4",
-    "minimist": "^1.2.0",
-    "optimize-css-assets-webpack-plugin": "^3.2.0",
-    "react-dev-utils": "^4.2.1",
-    "rxjs": "^5.5.6",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.10.1",
-    "webpack-md5-hash": "^0.0.5",
-    "webpack-merge": "^4.1.1",
-    "webpack-node-externals": "^1.6.0"
-  },
-  "devDependencies": {
-    "jest": "^22.1.4"
-  }
+  "workspaces": [
+    "packages/*"
+  ],
+  "private": true
 }
