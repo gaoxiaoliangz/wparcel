@@ -53,7 +53,7 @@ const defaultOptions: Partial<GenerateWebpackConfigOptions> = {
 }
 
 // Check if TypeScript is setup
-const useTypeScript = fs.existsSync(paths.appTsConfigAbs)
+const useTypeScript = fs.existsSync(paths.appTsConfig)
 
 // style files regexes
 const cssRegex = /\.css$/
@@ -260,7 +260,7 @@ export default (options: GenerateWebpackConfigOptions) => {
             },
           ],
           // TODO: since it may not be src
-          include: paths.appSrcAbs,
+          include: paths.appSrc,
         },
         {
           // "oneOf" will traverse all following loaders until one will
@@ -283,7 +283,7 @@ export default (options: GenerateWebpackConfigOptions) => {
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
               // TODO: since it may not be src
-              include: paths.appSrcAbs,
+              include: paths.appSrc,
               loader: require.resolve('babel-loader'),
               options: {
                 customize: require.resolve(
@@ -517,9 +517,9 @@ export default (options: GenerateWebpackConfigOptions) => {
           // resolveTypeReferenceDirectiveModule: process.versions.pnp
           //   ? `${__dirname}/pnpTs.js`
           //   : undefined,
-          tsconfig: paths.appTsConfigAbs,
+          tsconfig: paths.appTsConfig,
           reportFiles: ['**', '!**/__tests__/**', '!**/?(*.)(spec|test).*'],
-          watch: paths.appSrcAbs,
+          watch: paths.appSrc,
           silent: true,
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,

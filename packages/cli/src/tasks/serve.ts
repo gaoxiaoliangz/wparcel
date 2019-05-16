@@ -35,7 +35,7 @@ const serve = (config: ServeConfig) => {
     ...config,
   }
   const { port, configFilePath, shouldOpenBrowser, entryFilePath } = finalConfig
-  const useTypeScript = fs.existsSync(paths.appTsConfigAbs)
+  const useTypeScript = fs.existsSync(paths.appTsConfig)
 
   const startDevServer = ({
     onChangeStart,

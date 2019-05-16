@@ -25,7 +25,7 @@ export default ({ contentBase }: Options = {}) => {
 
     // https://github.com/webpack/webpack-dev-server/releases/tag/v2.4.3
     disableHostCheck: true,
-    contentBase: [paths.appPublicAbs, ...contentBase],
+    contentBase: [paths.appPublic, ...contentBase],
 
     // Some common config
     // HMR
