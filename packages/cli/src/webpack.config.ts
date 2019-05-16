@@ -84,6 +84,7 @@ export default (options: GenerateWebpackConfigOptions) => {
         loader: require.resolve('css-loader'),
         options: cssOptions,
       },
+      { loader: 'scoped-css-loader' },
       {
         // Options for PostCSS as we reference these options twice
         // Adds vendor prefixing based on your specified browser support in
@@ -249,13 +250,11 @@ export default (options: GenerateWebpackConfigOptions) => {
               options: {
                 formatter: require.resolve('react-dev-utils/eslintFormatter'),
                 eslintPath: require.resolve('eslint'),
-                // @remove-on-eject-begin
                 baseConfig: {
                   extends: [require.resolve('eslint-config-react-app')],
                 },
                 ignore: false,
                 useEslintrc: false,
-                // @remove-on-eject-end
               },
               loader: require.resolve('eslint-loader'),
             },
@@ -290,7 +289,6 @@ export default (options: GenerateWebpackConfigOptions) => {
                 customize: require.resolve(
                   'babel-preset-react-app/webpack-overrides'
                 ),
-                // @remove-on-eject-begin
                 babelrc: false,
                 configFile: false,
                 presets: [require.resolve('babel-preset-react-app')],
@@ -310,8 +308,8 @@ export default (options: GenerateWebpackConfigOptions) => {
                     'react-scripts',
                   ]
                 ),
-                // @remove-on-eject-end
                 plugins: [
+                  require.resolve('babel-plugin-react-scoped-css'),
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
@@ -349,7 +347,6 @@ export default (options: GenerateWebpackConfigOptions) => {
                 ],
                 cacheDirectory: true,
                 cacheCompression: isEnvProduction,
-                // @remove-on-eject-begin
                 cacheIdentifier: getCacheIdentifier(
                   isEnvProduction
                     ? 'production'
@@ -361,7 +358,6 @@ export default (options: GenerateWebpackConfigOptions) => {
                     'react-scripts',
                   ]
                 ),
-                // @remove-on-eject-end
                 // If an error happens in a package, it's possible to be
                 // because it was compiled. Thus, we don't want the browser
                 // debugger to show the original code. Instead, the code
