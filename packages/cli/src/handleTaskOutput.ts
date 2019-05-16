@@ -93,7 +93,7 @@ const handleTaskOutput = async (taskOutput, config: OutputConfig) => {
     if (taskOutput instanceof Rx.Observable) {
       taskOutput.subscribe({
         next(action) {
-          const { type, payload } = action
+          const { type, payload, meta } = action
           if (!keepConsole) {
             clearConsole()
           }
@@ -105,7 +105,12 @@ const handleTaskOutput = async (taskOutput, config: OutputConfig) => {
               break
 
             case TASK_STATUS.CHANGE_ERROR:
-              print.error(payload || 'Unknown error occurred')
+              const msg = payload || 'Unknown error occurred'
+              if (meta && meta.useRed === false) {
+                print.log(msg)
+              } else {
+                print.error(msg)
+              }
               break
 
             case TASK_STATUS.CHANGE_COMPLETE:

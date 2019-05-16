@@ -139,6 +139,9 @@ Network:   ${networkAddr}
         observer.next({
           type: TASK_STATUS.CHANGE_ERROR,
           payload: error,
+          meta: {
+            useRed: false,
+          },
         }),
     })
   })
