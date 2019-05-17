@@ -18,7 +18,9 @@
     "cli": "yarn workspace wparcel",
     "watch": "yarn cli build --watch",
     "build": "yarn cli build",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "prepub": "yarn build",
+    "pub": "lerna publish"
   },
   "workspaces": [
     "packages/*"
