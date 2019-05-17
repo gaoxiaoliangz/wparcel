@@ -9,6 +9,9 @@ export const prepareAssetFolder = (outDir: string) => {
     fs.mkdirSync(destPath, {
       recursive: true,
     })
+    console.log('asset folder created at', destPath)
+  } else {
+    console.log('asset folder already exists')
   }
   return destPath
 }
