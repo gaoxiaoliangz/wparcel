@@ -1,14 +1,17 @@
 import path from 'path'
 import fs from 'fs'
-import paths, { folders } from '../config/paths'
+import { folders } from '../config/paths'
+import mkdirp from 'mkdirp'
 import { resolvePathInProject, getFilename } from '../utils'
 
 export const prepareAssetFolder = (outDir: string) => {
   const destPath = path.resolve(resolvePathInProject(outDir), folders.assets)
   if (!fs.existsSync(destPath)) {
-    fs.mkdirSync(destPath, {
-      recursive: true,
-    })
+    // 低版本 node 会出现问题, zeit 的 8.x 就是
+    // fs.mkdirSync(destPath, {
+    //   recursive: true,
+    // })
+    mkdirp.sync(destPath)
   }
   return destPath
 }
