@@ -20,7 +20,7 @@ process.env.NODE_ENV = 'development'
 interface ServeConfig {
   port?: number
   configFilePath?: string
-  openBrowser?: boolean
+  shouldOpenBrowser?: boolean
   entryFilePath: string
 }
 
@@ -32,7 +32,7 @@ const defaultConfig = {
 const serve = (config: ServeConfig) => {
   const finalConfig = {
     ...defaultConfig,
-    ...config,
+    ..._.pickBy(config, v => v !== undefined),
   }
   const { port, configFilePath, shouldOpenBrowser, entryFilePath } = finalConfig
   const useTypeScript = fs.existsSync(paths.appTsConfig)

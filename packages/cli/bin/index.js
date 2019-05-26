@@ -8,13 +8,23 @@ const handleTaskOutput = require('../lib/handleTaskOutput').default
 // @ts-ignore
 const pkg = require('../package.json')
 
+const parseNumber = label => input => {
+  const n = Number(input)
+  if (!isNaN(n)) {
+    return n
+  }
+  throw new TypeError(`${label} should be a number, "${input}" is invalid`)
+}
+
 program
-  .version(pkg.version)
   .option('build', 'bundle app')
+  .version(pkg.version)
   .option('-w, --watch', 'enable watch mode for build')
-  .option('-c, --config <config>', 'webpack config file path')
+  .option('-c, --config <value>', 'webpack config file path')
   .option('-a, --analysis', 'show bundle analysis')
   .option('-k, --keep-console', 'keep console output')
+  .option('-p, --port <number>', 'webpack dev server port', parseNumber('port'))
+  .option('-o, --open', 'open browser')
   .parse(process.argv)
 
 if (program.build) {
@@ -35,6 +45,8 @@ if (program.build) {
     serve({
       configFilePath: program.configFilePath,
       entryFilePath: program.args[0],
+      shouldOpenBrowser: program.open,
+      port: program.port,
     }),
     {
       taskName: 'Serve',
