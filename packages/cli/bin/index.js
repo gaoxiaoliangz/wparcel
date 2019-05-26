@@ -32,7 +32,7 @@ if (program.build) {
     build({
       watch: program.watch,
       analysis: program.analysis,
-      configFilePath: program.configFilePath,
+      configFilePath: program.config,
       entryFilePath: program.args[0],
     }),
     {
@@ -43,7 +43,7 @@ if (program.build) {
 } else {
   handleTaskOutput(
     serve({
-      configFilePath: program.configFilePath,
+      configFilePath: program.config,
       entryFilePath: program.args[0],
       shouldOpenBrowser: program.open,
       port: program.port,

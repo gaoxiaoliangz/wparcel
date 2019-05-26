@@ -1,7 +1,8 @@
 import webpack, { Configuration } from 'webpack'
+import path from 'path'
 import merge from 'webpack-merge'
 import checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
-import { print } from '../utils'
+import { print, resolvePathInProject } from '../utils'
 import generateWebpackConfig, {
   GenerateWebpackConfigOptions,
 } from '../webpack.config'
@@ -40,11 +41,15 @@ export const initCompiler = (options: ResolveOptions) => {
   // 用户指定的 webpack 配置文件
   let webpackConfig = {}
   if (configFilePath) {
-    if (!checkRequiredFiles([configFilePath])) {
+    let configFilePathAbs = configFilePath
+    if (!path.isAbsolute(configFilePath)) {
+      configFilePathAbs = resolvePathInProject(configFilePath)
+    }
+    if (!checkRequiredFiles([configFilePathAbs])) {
       process.exit(1)
     }
-    webpackConfig = require(configFilePath)
-    print.log(`${configFilePath} is being used`)
+    webpackConfig = require(configFilePathAbs)
+    print.log(`${configFilePathAbs} is being used`)
   }
 
   // 用户提供的 config 目前只能以高优先级合并，如果想完全替换默认的 config 暂不支持

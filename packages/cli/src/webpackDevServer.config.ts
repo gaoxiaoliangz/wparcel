@@ -27,9 +27,8 @@ export default ({ contentBase }: Options = {}) => {
     disableHostCheck: true,
     contentBase: [paths.appPublic, ...contentBase],
 
-    // Some common config
     // HMR
-    // hot: true,
+    hot: true,
 
     // Proxy
     // proxy: {

@@ -10,4 +10,5 @@ renderApp()
 
 console.log('env', process.env.NODE_ENV)
 
-// module.hot.accept(App, renderApp)
+// @ts-ignore
+module.hot.accept(App, renderApp)
