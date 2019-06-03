@@ -117,12 +117,13 @@ const serve = (config: ServeConfig) => {
     })
 
     // Load proxy config
+    const outDirAbs = resolvePathInProject(outDir)
     const proxySetting = require(paths.appPackageJson).proxy
-    const proxyConfig = prepareProxy(proxySetting, paths.appPublic)
+    const proxyConfig = prepareProxy(proxySetting, outDirAbs)
 
     const serverConfig = createDevServerConfig({
       proxy: proxyConfig,
-      contentBase: [resolvePathInProject(outDir)],
+      contentBase: [outDirAbs],
     })
 
     const devServerInstance = new WebpackDevServer(

@@ -67,7 +67,14 @@ export const prepareHtmlFile = (options: PrepareHtmlFileOptions) => {
     // 获取 entry
     dom.window.document.querySelectorAll('body script').forEach(node => {
       const src = node.getAttribute('src')
+      const useRaw = node.getAttribute('raw') !== null
+
       if (src) {
+        if (useRaw) {
+          node.removeAttribute('raw')
+          handleCopy('src')(node)
+          return
+        }
         const scriptSrc = resolveFilePathInHtml(src)
         entry.push(scriptSrc)
         dom.window.document.body.removeChild(node)
