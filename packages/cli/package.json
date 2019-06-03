@@ -1,6 +1,6 @@
 {
   "name": "wparcel",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "a webpack-based parcel-like web application bundler",
   "main": "lib/index.js",
   "bin": {
