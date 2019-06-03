@@ -1,10 +1,15 @@
 # Changelog
 
+## v0.8.0 (2019.06.03)
+
+- added support for proxy through config in `package.json`
+- added support for choosing port when port conflict arises
+
 ## v0.7.3 (2019.05.26)
 
-- fix `--config`
-- add `--open` to open browser
-- support hmr
+- fixed `--config`
+- added `--open` to open browser
+- supported hmr
 
 ## v0.7.2
 

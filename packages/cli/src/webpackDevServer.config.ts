@@ -2,13 +2,14 @@ import paths from './config/paths'
 
 interface Options {
   contentBase?: string[]
+  proxy?: {}
 }
 
 /**
  * Webpack dev server config used by wparcel
  * docs can be found here https://webpack.js.org/configuration/dev-server/
  */
-export default ({ contentBase }: Options = {}) => {
+export default ({ contentBase, proxy }: Options = {}) => {
   return {
     compress: true,
     clientLogLevel: 'none',
@@ -30,12 +31,7 @@ export default ({ contentBase }: Options = {}) => {
     // HMR
     hot: true,
 
-    // Proxy
-    // proxy: {
-    //   '*': {
-    //     target: 'http://localhost:8080',
-    //   }
-    // },
+    proxy,
 
     // cors
     // before(app) {

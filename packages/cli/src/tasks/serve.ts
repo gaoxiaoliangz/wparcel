@@ -6,9 +6,10 @@ import openBrowser from 'react-dev-utils/openBrowser'
 import ForkTsCheckerWebpackPlugin from 'react-dev-utils/ForkTsCheckerWebpackPlugin'
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages'
 import typescriptFormatter from 'react-dev-utils/typescriptFormatter'
+import { choosePort, prepareProxy } from 'react-dev-utils/WebpackDevServerUtils'
 import getIP from '../utils/getIP'
 import { toErrorOutputString } from '../helpers/helpers'
-import devServerConfig from '../webpackDevServer.config'
+import createDevServerConfig from '../webpackDevServer.config'
 import { TASK_STATUS } from '../constants'
 import { initCompiler } from '../compiler/compiler'
 import { resolvePathInProject } from '../utils'
@@ -34,14 +35,17 @@ const serve = (config: ServeConfig) => {
     ...defaultConfig,
     ..._.pickBy(config, v => v !== undefined),
   }
-  const { port, configFilePath, shouldOpenBrowser, entryFilePath } = finalConfig
+  const { configFilePath, shouldOpenBrowser, entryFilePath } = finalConfig
   const useTypeScript = fs.existsSync(paths.appTsConfig)
+  // default port or port defined by user
+  let port0 = finalConfig.port
 
-  const startDevServer = ({
+  const startDevServer = async ({
     onChangeStart,
     onChangeComplete,
     onChangeError,
   }) => {
+    const port = await choosePort(getIP(), port0)
     let isFirstCompile = true
     const { compiler, outDir } = initCompiler({
       webpackEnv: 'development',
@@ -95,13 +99,12 @@ const serve = (config: ServeConfig) => {
             return
           }
         }
-
-        const serverAddr = `http://localhost:${port}/`
         const ip = getIP()
+        const serverAddr = `http://localhost:${port}/`
         const networkAddr = `http://${ip}:${port}/`
         onChangeComplete(`
-Local:     ${serverAddr}
-Network:   ${networkAddr}
+  Local:     ${serverAddr}
+  Network:   ${networkAddr}
 `)
 
         if (isFirstCompile) {
@@ -113,9 +116,19 @@ Network:   ${networkAddr}
       }
     })
 
-    const devServerInstance = new WebpackDevServer(compiler, devServerConfig({
+    // Load proxy config
+    const proxySetting = require(paths.appPackageJson).proxy
+    const proxyConfig = prepareProxy(proxySetting, paths.appPublic)
+
+    const serverConfig = createDevServerConfig({
+      proxy: proxyConfig,
       contentBase: [resolvePathInProject(outDir)],
-    }) as WebpackDevServer.Configuration)
+    })
+
+    const devServerInstance = new WebpackDevServer(
+      compiler,
+      serverConfig as WebpackDevServer.Configuration
+    )
     // Launch WebpackDevServer
     devServerInstance.listen(port, (err /* , result */) => {
       if (err) {
