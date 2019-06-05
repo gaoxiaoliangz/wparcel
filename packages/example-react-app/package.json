@@ -8,7 +8,7 @@
     "build": "wparcel build index.html",
     "build:d": "node -r source-map-support/register ../wparcel/bin/index.js build index.html"
   },
-  "version": "0.8.1",
+  "version": "0.8.2",
   "license": "MIT",
   "dependencies": {
     "react": "^16.4.1",
@@ -17,7 +17,7 @@
   "devDependencies": {
     "rimraf": "^2.6.3",
     "serve": "^11.0.0",
-    "wparcel": "^0.8.1"
+    "wparcel": "^0.8.2"
   },
   "private": true
 }
