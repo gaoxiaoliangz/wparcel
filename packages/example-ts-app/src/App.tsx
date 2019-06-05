@@ -11,14 +11,29 @@ interface AppProps {
 const App = ({ title }: AppProps) => {
   const [count, updateCount] = useState(0)
   useEffect(() => {
-    // fullURL: 'https://www.zhihu.com/api/v4/mqtt/auth'
-    const testURL = '/api/v4/mqtt/auth'
+    // TODO: 这个接口会 301，postman 里面请求不会，和 proxy-middleware 设置有关？
+    // const testURL = '/api/v4/mqtt/auth'
+    // const testURL = '/api/login/'
+    // const testURL =
+    //   'http://www.zhihu.com/api/v4/answers/704626001/root_comments?order=normal&limit=20&offset=0&status=open'
+    const testURL =
+      '/api/v4/answers/704626001/root_comments?order=normal&limit=20&offset=0&status=open'
 
     fetch(testURL, {
-      method: 'POST',
+      // method: 'POST',
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+      // body: JSON.stringify({
+      //   email: 'admin',
+      //   password: '123456',
+      // }),
     })
       .then(res => {
-        console.log('proxy works')
+        if (res.status !== 404) {
+          return console.log('proxy works')
+        }
+        throw res
       })
       .catch(err => {
         console.log('proxy not working')
