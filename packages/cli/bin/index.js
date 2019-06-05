@@ -1,12 +1,46 @@
 #!/usr/bin/env node
 // @ts-check
 
+const isDebug = process.argv.includes('--debug')
+
+const timeLog = []
+
+const logTime = desc => {
+  if (!isDebug) {
+    return
+  }
+  const t = new Date()
+  const tStr = `${t.getHours()}:${t.getMinutes()}:${t.getSeconds()}:${t.getMilliseconds()}`
+  const lastT = timeLog[timeLog.length - 1]
+  const span = ((lastT ? t.valueOf() - lastT[0].valueOf() : 0) / 1000).toFixed(2) // prettier-ignore
+  const log = [t, desc]
+  timeLog.push(log)
+  console.log(tStr, desc, '+' + span + 's')
+}
+
+const sumTime = () => {
+  if (!isDebug) {
+    return
+  }
+  const delta =
+    timeLog[timeLog.length - 1][0].valueOf() - timeLog[0][0].valueOf()
+  const s = delta / 1000
+  console.log(`It takes ${s}s to complete`)
+}
+
+logTime('before imports')
+
 const program = require('commander')
+logTime('after importing commander')
 const build = require('../lib/tasks/build').default
+logTime('after importing task/build')
 const serve = require('../lib/tasks/serve').default
+logTime('after importing task/serve')
 const handleTaskOutput = require('../lib/handleTaskOutput').default
+logTime('after importing lib/handleTaskOutput')
 // @ts-ignore
 const pkg = require('../package.json')
+logTime('after importing package.json')
 
 const parseNumber = label => input => {
   const n = Number(input)
@@ -26,6 +60,8 @@ program
   .option('-p, --port <number>', 'webpack dev server port', parseNumber('port'))
   .option('-o, --open', 'open browser')
   .parse(process.argv)
+
+logTime('after registering commands')
 
 if (program.build) {
   handleTaskOutput(
@@ -54,3 +90,6 @@ if (program.build) {
     }
   )
 }
+
+logTime('after handleTaskOutput called')
+sumTime()
