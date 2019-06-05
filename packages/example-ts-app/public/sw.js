@@ -1,4 +1,18 @@
-const version = 55
+const version = 61
+
+const once = (target, eventKey, handler) => {
+  let called = false
+  const finalHandler = e => {
+    called = true
+    const result = handler(e)
+    if (called) {
+      return
+    }
+    target.removeEventListener(eventKey, finalHandler)
+    return result
+  }
+  target.addEventListener(eventKey, finalHandler)
+}
 
 self.addEventListener('install', event => {
   // self.skipWaiting()
@@ -7,7 +21,12 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches
       .open('static-v1')
-      .then(cache => cache.add('/images/dog.jpg'))
+      .then(cache =>
+        Promise.all([
+          cache.add('/images/cat.jpg'),
+          cache.add('/images/dog.jpg'),
+        ])
+      )
       .then(() => {
         console.log('sw install completed')
       })
@@ -36,10 +55,23 @@ self.addEventListener('fetch', event => {
   }
 })
 
-self.addEventListener('message', event => {
+self.addEventListener('message', async event => {
+  console.log(event)
   console.log(`sw:${version} received`, event.data)
+  console.log('clientId', event.clientId)
+  console.log('clients', clients)
+
+  const client = await clients.get(event.source.id)
+
+  console.log('client', client)
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting()
+    once(self, 'activate', () => {
+      client.postMessage({
+        type: 'SW_ACTIVATED',
+      })
+      // console.log('tell client')
+    })
   }
   if (event.data && event.data.type === 'CHECK_VERSION') {
     console.log('version', version)

@@ -23,9 +23,6 @@ const service2 = () => {
   )
 }
 
-let mark = 0
-
-// eslint-disable-next-line
 const once = (target, eventKey, handler) => {
   let called = false
   const finalHandler = e => {
@@ -39,6 +36,8 @@ const once = (target, eventKey, handler) => {
   }
   target.addEventListener(eventKey, finalHandler)
 }
+
+let mark = 0
 
 const on = (target, eventKey, handler, mark) => {
   const destroyFn = () => {
@@ -57,25 +56,35 @@ const App = ({ hasUpdate, updateApp }: AppProps) => {
     service2().catch(() => {
       console.log('proxy not working')
     })
+
+    if (navigator.serviceWorker) {
+      // navigator.serviceWorker.controller.addEventListener('message', e => {
+      // })
+
+      navigator.serviceWorker.addEventListener('message', event => {
+        console.log('receive msg from sw', event)
+        console.log(event.data.msg, event.data.url)
+      })
+    }
   }, [])
 
-  // const postMessageToSW = data => {
-  //   if (
-  //     navigator.serviceWorker.controller &&
-  //     navigator.serviceWorker.controller.state === 'activated'
-  //   ) {
-  //     navigator.serviceWorker.controller.postMessage(data)
-  //   } else {
-  //     if (navigator.serviceWorker.controller) {
-  //       console.log(
-  //         "service worker is not activated, it's in the state of",
-  //         navigator.serviceWorker.controller.state
-  //       )
-  //     } else {
-  //       console.log('no service worker found')
-  //     }
-  //   }
-  // }
+  const postMessageToSW = data => {
+    if (
+      navigator.serviceWorker.controller &&
+      navigator.serviceWorker.controller.state === 'activated'
+    ) {
+      navigator.serviceWorker.controller.postMessage(data)
+    } else {
+      if (navigator.serviceWorker.controller) {
+        console.log(
+          "service worker is not activated, it's in the state of",
+          navigator.serviceWorker.controller.state
+        )
+      } else {
+        console.log('no service worker found')
+      }
+    }
+  }
 
   const checkNewVersion = () => {
     return navigator.serviceWorker
@@ -88,6 +97,17 @@ const App = ({ hasUpdate, updateApp }: AppProps) => {
             reg.waiting.postMessage({
               type: 'SKIP_WAITING',
             })
+            on(
+              navigator.serviceWorker,
+              'message',
+              destroy => e => {
+                if (e.data && e.data.type === 'SW_ACTIVATED') {
+                  destroy()
+                  window.location.reload()
+                }
+              },
+              'x'
+            )
           }
         }
 
@@ -104,12 +124,8 @@ const App = ({ hasUpdate, updateApp }: AppProps) => {
                   if (e.target.state === 'installed') {
                     activateNewVersion()
                     resolve()
-                    return
-                  }
-                  if (e.target.state === 'activated') {
-                    console.log('installing:activated')
-                    resolve(checkNewVersion())
                     destroy()
+                    return
                   }
                 },
                 mark++
@@ -120,6 +136,7 @@ const App = ({ hasUpdate, updateApp }: AppProps) => {
             return activateNewVersion()
           }
           console.log('No update found')
+          alert('No update found')
         })
       })
       .catch(() => {
@@ -150,7 +167,18 @@ const App = ({ hasUpdate, updateApp }: AppProps) => {
       <div>
         <button onClick={checkNewVersion}>Check for new version</button>
       </div>
-      {/* <div>
+      <div>
+        <button
+          onClick={() => {
+            navigator.serviceWorker.register('/sw.js').then(() => {
+              console.log('what now?')
+            })
+          }}
+        >
+          Register
+        </button>
+      </div>
+      <div>
         <button
           onClick={() => {
             postMessageToSW({
@@ -160,7 +188,7 @@ const App = ({ hasUpdate, updateApp }: AppProps) => {
         >
           Check version
         </button>
-      </div> */}
+      </div>
     </div>
   )
 }
