@@ -27,7 +27,8 @@ export default ({ contentBase, proxy }: Options = {}) => {
 
     // https://github.com/webpack/webpack-dev-server/releases/tag/v2.4.3
     disableHostCheck: true,
-    contentBase: [paths.appPublic, ...contentBase],
+    // 越往后优先级越低
+    contentBase: [...contentBase, paths.appPublic],
 
     // HMR
     hot: true,
