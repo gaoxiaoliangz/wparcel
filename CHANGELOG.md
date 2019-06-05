@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.8.2 (2019.06.05)
+
+- added raw attr for script to skip building step
+- added `--debug` to check time spent on each import
+- added support advanced proxy setup
+- `outDir` now has higher priority than `public` on static asset resolving
+- added service worker and advanced proxy setup to ts-app
+
 ## v0.8.0 (2019.06.03)
 
 - added support for proxy through config in `package.json`
