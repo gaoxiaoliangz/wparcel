@@ -1,3 +1,4 @@
+import fs from 'fs'
 import paths from './config/paths'
 
 interface Options {
@@ -33,12 +34,11 @@ export default ({ contentBase, proxy }: Options = {}) => {
 
     proxy,
 
-    // cors
-    // before(app) {
-    //   app.use((req, res, next) => {
-    //     res.setHeader('Access-Control-Allow-Origin', '*')
-    //     next()
-    //   })
-    // }
+    before(app, server) {
+      if (fs.existsSync(paths.proxySetup)) {
+        // This registers user provided middleware for proxy reasons
+        require(paths.proxySetup)(app)
+      }
+    },
   }
 }

@@ -9,6 +9,27 @@ import generateWebpackConfig, {
 import { handleEntry } from './entry'
 import { prepareAssetFolder } from './asset'
 
+// console.time('webpack')
+// import webpack, { Configuration } from 'webpack'
+// console.timeEnd('webpack')
+// import path from 'path'
+// console.time('webpack-merge')
+// import merge from 'webpack-merge'
+// console.timeEnd('webpack-merge')
+// console.time('react-dev-utils/checkRequiredFiles')
+// import checkRequiredFiles from 'react-dev-utils/checkRequiredFiles'
+// console.timeEnd('react-dev-utils/checkRequiredFiles')
+// console.time('rest')
+// import { print, resolvePathInProject } from '../utils'
+// console.time('webpack.config')
+// import generateWebpackConfig, {
+//   GenerateWebpackConfigOptions,
+// } from '../webpack.config'
+// console.timeEnd('webpack.config')
+// import { handleEntry } from './entry'
+// import { prepareAssetFolder } from './asset'
+// console.timeEnd('rest')
+
 type ResolveOptions = Modify<
   GenerateWebpackConfigOptions,
   {

@@ -35,3 +35,7 @@ yarn wparcel index.html
 ```
 wparcel build index.html
 ```
+
+## Known issues
+
+setting `proxy` in `package.json` can affect the behaviour of resolving static assets in `public` (can use advanced proxy setup to walk around this problem)

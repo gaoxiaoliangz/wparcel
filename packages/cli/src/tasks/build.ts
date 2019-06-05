@@ -3,6 +3,17 @@ import { TASK_STATUS } from '../constants'
 import { toErrorOutputString, toOutputString } from '../helpers/helpers'
 import { initCompiler } from '../compiler/compiler'
 
+// console.time('rxjs')
+// import Rx from 'rxjs/Rx'
+// console.timeEnd('rxjs')
+// import { TASK_STATUS } from '../constants'
+// console.time('helpers')
+// import { toErrorOutputString, toOutputString } from '../helpers/helpers'
+// console.timeEnd('helpers')
+// console.time('compiler')
+// import { initCompiler } from '../compiler/compiler'
+// console.timeEnd('compiler')
+
 interface BuildConfig {
   analysis: boolean
   configFilePath: string
