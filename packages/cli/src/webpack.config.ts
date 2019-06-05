@@ -144,12 +144,15 @@ export default (options: GenerateWebpackConfigOptions) => {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: isEnvProduction
-        ? `${assetsFolder}/js/[name].[contenthash:8].js`
-        : isEnvDevelopment && `${assetsFolder}/js/bundle.js`,
-      chunkFilename: isEnvProduction
-        ? `${assetsFolder}/js/[name].[contenthash:8].chunk.js`
-        : isEnvDevelopment && `${assetsFolder}/js/[name].chunk.js`,
+      // filename: isEnvProduction
+      //   ? `${assetsFolder}/js/[name].[contenthash:8].js`
+      //   : isEnvDevelopment && `${assetsFolder}/js/bundle.js`,
+      // chunkFilename: isEnvProduction
+      //   ? `${assetsFolder}/js/[name].[contenthash:8].chunk.js`
+      //   : isEnvDevelopment && `${assetsFolder}/js/[name].chunk.js`,
+
+      filename: `${assetsFolder}/js/[name].[hash:8].js`,
+      chunkFilename: `${assetsFolder}/js/[name].[hash:8].chunk.js`,
       publicPath,
     },
     optimization: {
