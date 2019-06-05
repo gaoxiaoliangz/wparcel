@@ -4,7 +4,7 @@
 
 - added raw attr for script to skip building step
 - added `--debug` to check time spent on each import
-- added support advanced proxy setup
+- added support for advanced proxy setup
 - `outDir` now has higher priority than `public` on static asset resolving
 - added service worker and advanced proxy setup to ts-app
 
