@@ -1,6 +1,6 @@
 # wparcel
 
-a webpack-based parcel-like web application bundler
+A webpack-based parcel-like web application bundler
 
 ## How to use
 
